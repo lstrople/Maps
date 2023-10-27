@@ -4,10 +4,10 @@
 paulSpace <- st_read("paul.KML") %>%
   st_transform(32620)
 
-paulSpace <- (paulSpace %>% slice(1))
-st_difference(paulSpace %>% slice(2)) %>%
-  paulSpace <- st_difference(paulSpace %>% slice(3)) %>%
-  paulSpace <- st_difference(paulSpace %>% slice(4))
+step1 <- paulSpace %>% dplyr::slice(1)
+step2 <- step1 %>% st_difference(paulSpace  %>% dplyr::slice(2))
+step3 <- step2 %>% st_difference(paulSpace  %>% dplyr::slice(3))
+step4 <- step3 %>% st_difference(paulSpace  %>% dplyr::slice(4))
 
 urm <- 32620
 
@@ -86,12 +86,13 @@ paul_plot <- ggplot() +
   #legend.justification = c("right", "bottom")
   scale_color_manual(name = "Legend", 
                      values = c ("#6C757D","#212529"),
-                     labels = c("Traps", "Tip-Ups")) +
+                     labels = c("Nets", "Tip-Ups")) +
   scale_fill_manual(name = "Legend", 
                     values = c( "#6C757D","#212529"),
-                    labels = c("Traps", "Tip-Ups")) +
+                    labels = c("Nets", "Tip-Ups")) +
   scale_shape_manual(name = "Legend", 
-                     values = c(15, 17),
-                     labels = c("Traps", "Tip-Ups"))
+                     values = c(16, 17),
+                     labels = c("Nets", "Tip-Ups"))
 
 print(paul_plot)
+
