@@ -90,5 +90,21 @@ cote_plot <- ggplot() +
                      labels = c("Nets","Traps","Tip-Ups"))
 #labels = c("Traps", "Tip-Ups"))
 
+cote_plot <- cote_plot+
+  ggspatial::annotation_scale(
+    location = "br",
+    bar_cols = c("grey60", "white"),
+    text_family = "ArcherPro Book"
+  ) +
+  ggspatial::annotation_north_arrow(
+    location = "tr", which_north = "true",
+    pad_x = unit(0.4, "in"), pad_y = unit(0.4, "in"),
+    style = ggspatial::north_arrow_fancy_orienteering(
+      fill = c("grey40", "white"),
+      line_col = "grey20",
+      text_family = "ArcherPro Book"
+    )
+  )
+
 print(cote_plot)
 
