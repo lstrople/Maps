@@ -64,15 +64,17 @@ casc_plot <- ggplot() +
   geom_sf(data = cascTU_space.df, aes(color = "cascTU_space", shape = "cascTU_space"), show.legend = FALSE) +
   geom_sf(data = cascNet_space.df, aes(color = "cascNet_space", shape = "cascNet_space"), show.legend = FALSE) +
   #geom_path(data = ThibaultNet_space.df, aes(x = your_x_column, y = your_y_column, group = group_column), color = "blue") +  # Replace your_x_column, your_y_column, and group_column with appropriate column names
-  theme(panel.border=element_blank(),
-        panel.grid = element_blank(),
+  theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
         panel.background = element_rect(fill = "transparent", color = NA), 
         axis.ticks.x = element_blank(),
-        axis.ticks.y = element_blank(), 
+        axis.ticks.y = element_blank(),
+        panel.border = element_rect(color = "black", 
+                                    fill = NA, 
+                                    linewidth = 2),
         legend.key = element_rect(fill = "transparent"), 
-        plot.margin = unit(c(0,0,0,0), "cm")) +
+        plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm")) +
   #legend.text = element_text(size=8), 
   #legend.position = c(0.05, .95), 
   #legend.justification = c("right", "bottom"))
@@ -86,5 +88,24 @@ casc_plot <- ggplot() +
                      values = c(16,15, 17),
                      labels = c("Nets","Traps","Tip-Ups"))
 
+# Add scale and North arrow
+casc_plot <- casc_plot+
+  ggspatial::annotation_scale(
+    location = "br",
+    bar_cols = c("grey60", "white"),
+    text_family = "ArcherPro Book"
+  ) +
+  ggspatial::annotation_north_arrow(
+    location = "tl", which_north = "true",
+    pad_x = unit(0.4, "in"), pad_y = unit(0.4, "in"),
+    style = ggspatial::north_arrow_fancy_orienteering(
+      fill = c("grey40", "white"),
+      line_col = "grey20",
+      text_family = "ArcherPro Book"
+    )
+  )
+
+
 print(casc_plot)
+
 
