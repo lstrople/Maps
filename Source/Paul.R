@@ -65,7 +65,7 @@ paul_plot <- ggplot() +
                                      linewidth = 2),
         axis.ticks.y = element_blank(), 
         legend.key = element_rect(fill = "transparent"), 
-        plot.margin = unit(c(1,1,1,1), "cm")) +
+        plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm")) +
   #legend.text = element_text(size=8), 
   #legend.position = c(0.05, .95), 
   #legend.justification = c("right", "bottom")
