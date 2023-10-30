@@ -65,15 +65,17 @@ cote_plot <- ggplot() +
   geom_sf(data =  coteTU_space.df, aes(color = "coteTU_space", shape = "coteTU_space"), show.legend = FALSE) +
   geom_sf(data = coteTrap_space.df, aes(color = "coteTrap_space", shape = "coteTrap_space"), show.legend =FALSE) +
   geom_sf(data = coteNet_space.df, aes(color = "coteNet_space", shape = "coteNet_space"), show.legend = FALSE) +
-  theme(panel.border=element_blank(),
-        panel.grid = element_blank(),
+  theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
         panel.background = element_rect(fill = "transparent", color = NA), 
         axis.ticks.x = element_blank(),
+        panel.border = element_rect(color = "black", 
+                                    fill = NA, 
+                                    linewidth = 2),
         axis.ticks.y = element_blank(), 
         legend.key = element_rect(fill = "transparent"), 
-        plot.margin = unit(c(0,0,0,0), "cm"))+
+        plot.margin = unit(c(1,1,1,1), "cm"))+
   #legend.text = element_text(size=8), 
   #legend.position = c(0.05, .95), 
   #legend.justification = c("right", "bottom"))
