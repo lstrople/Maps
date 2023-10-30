@@ -55,15 +55,17 @@ paul_plot <- ggplot() +
   geom_sf(data = paul_selected, color="#343A40", fill="#ADB5BD") +
   geom_sf(data = PaulNet_space.df, aes(color = "PaulNet_space", shape = "PaulNet_space"), show.legend = FALSE) +
   geom_sf(data = PaulTU_space.df, aes(color = "PaulTU_space", shape = "PaulTU_space"), show.legend = FALSE) +
-  theme(panel.border=element_blank(),
-        panel.grid = element_blank(),
+  theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
         panel.background = element_rect(fill = "transparent", color = NA), 
         axis.ticks.x = element_blank(),
+        panel.border = element_rect(color = "black", 
+                                     fill = NA, 
+                                     linewidth = 2),
         axis.ticks.y = element_blank(), 
         legend.key = element_rect(fill = "transparent"), 
-        plot.margin = unit(c(0,0,0,0), "cm")) +
+        plot.margin = unit(c(1,1,1,1), "cm")) +
   #legend.text = element_text(size=8), 
   #legend.position = c(0.05, .95), 
   #legend.justification = c("right", "bottom")
