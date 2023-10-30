@@ -55,8 +55,7 @@ paul_plot <- ggplot() +
   geom_sf(data = paul_selected, color="#343A40", fill="#ADB5BD") +
   geom_sf(data = PaulNet_space.df, aes(color = "PaulNet_space", shape = "PaulNet_space"), show.legend = FALSE) +
   geom_sf(data = PaulTU_space.df, aes(color = "PaulTU_space", shape = "PaulTU_space"), show.legend = FALSE) +
-  theme(theme_minimal(base_size = 12),
-        panel.grid = element_blank(),
+  theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
         panel.background = element_rect(fill = "transparent", color = NA), 
