@@ -1,19 +1,18 @@
 #########
 #Paul map
 #########
-paulSpace <- st_read("paul.KML") %>%
+paulSpace <- st_read("Paul.KML") %>%
   st_transform(32620)
 
-step1 <- paulSpace %>% dplyr::slice(1)
-step2 <- step1 %>% st_difference(paulSpace  %>% dplyr::slice(2))
-step3 <- step2 %>% st_difference(paulSpace  %>% dplyr::slice(3))
-step4 <- step3 %>% st_difference(paulSpace  %>% dplyr::slice(4))
+paulSpace <- paulSpace %>%
+  slice(1) %>%
+  st_difference(paulSpace %>% slice(2)) %>%
+  st_difference(paulSpace %>% slice(3)) %>%
+  st_difference(paulSpace %>% slice(4))
 
 urm <- 32620
 
 paul_selected <- dplyr::select(paulSpace, geometry) %>% st_zm()
-
-
 
 
 Paul.df <- subset(gaspe.df, lake=="Paul")
@@ -43,22 +42,6 @@ PaulNet_space.df <- st_as_sf(PaulNet_tibble.df, coords = c("lonDD", "latDD"))
 PaulNet_space.df <- st_set_crs(PaulNet_space.df, 4326)
 
 
-
-######
-#paul
-######
-paulSpace <- st_read("Paul.KML") %>%
-  st_transform(32620)
-
-paulSpace <- paulSpace %>%
-  slice(1) %>%
-  st_difference(paulSpace %>% slice(2)) %>%
-  st_difference(paulSpace %>% slice(3)) %>%
-  st_difference(paulSpace %>% slice(4))
-
-urm <- 32620
-
-paul_selected <- dplyr::select(paulSpace, geometry) %>% st_zm()
 
 
 ##########
