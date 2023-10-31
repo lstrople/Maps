@@ -22,8 +22,8 @@ paul_selected <- dplyr::select(coteSpace, geometry) %>% st_zm()
 
 cote.df <- subset(gaspe.df, lake=="Cote")
 coteW23.df <- subset(cote.df, Season=="W23")
-coteTU.df <- subset(cote.df, type=="TU")
-coteTrap.df <- subset(cote.df, type=="trap")
+coteTU.df <- subset(coteW23.df, type=="TU")
+coteTrap.df <- subset(coteW23.df, type=="trap")
 
 
 
