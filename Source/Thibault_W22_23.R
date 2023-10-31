@@ -61,35 +61,6 @@ ThibaultNet_tibble.df <- dplyr::filter(ThibaultNet_tibble.df, !is.na(lonDD) & !i
 ThibaultNet_space.df <- st_as_sf(ThibaultNet_tibble.df, coords = c("lonDD", "latDD"))
 ThibaultNet_space.df <- st_set_crs(ThibaultNet_space.df, 4326)
 
-x <- ThibaultNet_space.df[5, 7]
-y <- ThibaultNet_space.df[6, 7]
-
-
-new_df <- data.frame(
-  x = x,
-  y = y
-)
-
-# Print the new dataframe
-print(new_df)
-
-
-lon1 <- -66.48233
-lat1 <- 48.931555
-lon2 <- -66.48254
-lat2 <- 48.9314
-
-
-line_data <- data.frame(
-  x = lon1,
-  y = lat1,
-  xend = lon2,
-  yend = lat2
-)
-
-# Convert the data frame to a simple feature object with a LINESTRING geometry
-Thibaultline_space.sf <- st_as_sf(line_data, crs = 4326)
-
 ######
 #Plot
 ######
@@ -100,7 +71,6 @@ thib_plot <- ggplot() +
   geom_sf(data = ThibaultTU_space.df, aes(color = "ThibaultTU_space", shape = "ThibaultTU_space"), show.legend = TRUE) +
   geom_sf(data = ThibaultTrap_space.df, aes(color = "ThibaultTrap_space", shape = "ThibaultTrap_space"), show.legend = TRUE) +
   geom_sf(data = ThibaultNet_space.df, aes(color = "ThibaultNet_space", shape = "ThibaultNet_space"), show.legend = TRUE) +
-  #geom_cast(data = new_df, "LINESTRING", color="red") + 
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
