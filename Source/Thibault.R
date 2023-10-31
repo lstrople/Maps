@@ -2,17 +2,6 @@
 #must run main map file before use
 ###################################
 
-#########
-#Thibault
-#########
-
-Thibault.df <- subset(gaspe.df, lake=="Thibault")
-ThibaultTU.df <- subset(Thibault.df, type=="TU")
-ThibaultTrap.df <- subset(Thibault.df, type=="trap")
-ThibaultNet.df <- subset(Thibault.df, type=="NET")
-
-
-
 thibSpace <- st_read("thibault.KML") %>%
   st_transform(32620)
 
@@ -27,10 +16,19 @@ invalid_geometries <- which(!valid_geometries)
 print(paste("Invalid geometries at indices: ", paste(invalid_geometries, collapse = ", ")))
 
 
-
 urm <- 32620
 
 Thib_selected <- dplyr::select(thibSpace, geometry) %>% st_zm()
+
+#########
+#Thibault
+#########
+
+Thibault.df <- subset(gaspe.df, lake=="Thibault")
+ThibaultTU.df <- subset(Thibault.df, type=="TU")
+ThibaultTrap.df <- subset(Thibault.df, type=="trap")
+ThibaultNet.df <- subset(Thibault.df, type=="NET")
+
 
 
 ###########
@@ -60,34 +58,38 @@ ThibaultTrap_space.df <- st_set_crs(ThibaultTrap_space.df, 4326)
 ThibaultNet_tibble.df <- as_tibble(ThibaultNet.df)
 ThibaultNet_tibble.df <- dplyr::filter(ThibaultNet_tibble.df, !is.na(lonDD) & !is.na(latDD))
 ThibaultNet_space.df <- st_as_sf(ThibaultNet_tibble.df, coords = c("lonDD", "latDD"))
-ThibaultNet_space.df <- st_set_crs(ThibaultNet_space.df, 4326)
 
+# Create a data frame with the coordinates of the two points
+line_data <- data.frame(lonDD = c(48.931555,-66.4823333333333), latDD = c(48.9314,-66.4825466666667))
 
-th_selected <- dplyr::select(thibSpace, geometry) %>% st_zm()
+# Convert the data frame to a simple feature object with a LINESTRING geometry
+Thibaultline_space.sf <- st_as_sf(line_data, coords = c("lonDD", "latDD"), crs = 4326)
 
-legdtxt<-c("TU", "Trap", "Net")
+Thibaultline_space.sf <- st_set_crs(line_sf, 4326)
 
 ######
 #Plot
 ######
+
 
 thib_plot <- ggplot() +
   geom_sf(data = th_selected, color="#343A40", fill="#ADB5BD") + 
   geom_sf(data = ThibaultTU_space.df, aes(color = "ThibaultTU_space", shape = "ThibaultTU_space"), show.legend = TRUE) +
   geom_sf(data = ThibaultTrap_space.df, aes(color = "ThibaultTrap_space", shape = "ThibaultTrap_space"), show.legend = TRUE) +
   geom_sf(data = ThibaultNet_space.df, aes(color = "ThibaultNet_space", shape = "ThibaultNet_space"), show.legend = TRUE) +
+  geom_sf(data = Thibaultline_space.sf, color = "red", size = 1) +
   #geom_path(data = ThibaultNet_space.df, aes(x = your_x_column, y = your_y_column, group = group_column), color = "blue") +  # Replace your_x_column, your_y_column, and group_column with appropriate column names
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
-        panel.background = element_rect(fill = "transparent", color = NA), 
+        panel.background = element_rect(fill = "transparent", color = NA, size = 2), 
         axis.ticks.x = element_blank(),
         axis.ticks.y = element_blank(), 
-        panel.border = element_rect(color = "black", 
-                                    fill = NA, 
-                                    linewidth = 2),
+        #panel.border = element_rect(color = "black", 
+                                    #fill = NA, 
+                                    #linewidth = 2),
         legend.key = element_rect(fill = "transparent"), 
-        plot.margin = unit(c(1,1,1,1), "cm"))+
+        plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm"))+
   #legend.text = element_text(size=8), 
   #legend.position = c(0.05, .95), 
   #legend.justification = c("right", "bottom"))
