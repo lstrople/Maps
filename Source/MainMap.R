@@ -8,7 +8,9 @@ library(ggplot2)
 library(ggrepel)
 library(tidyr)
 library(tidyverse)
-
+library(patchwork)
+library(gridExtra)
+library(cowplot)
 
 
 ###########
@@ -71,6 +73,7 @@ LOTDMtoDDcoorindate <- function(coordinate) {
 setwd("C:/Users/lstrople/OneDrive - Norwegian University of Life Sciences/Winter_paper/KML files")
 
 gaspe.df <- read.csv("C:/Users/lstrople/OneDrive - Norwegian University of Life Sciences/Winter_paper/equipment_locations.csv")
+
 
 # Apply the function to the lat column using lapply
 gaspe.df$latDD <- lapply(gaspe.df$lat_A, LATDMtoDDcoorindate)

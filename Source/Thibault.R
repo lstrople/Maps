@@ -50,6 +50,7 @@ ThibaultTrap_space.df <- st_as_sf(ThibaultTrap_tibble.df, coords = c("lonDD", "l
 ThibaultTrap_space.df <- st_set_crs(ThibaultTrap_space.df, 4326)
 
 
+
 ##############
 #convert nets
 ##############
@@ -58,14 +59,36 @@ ThibaultTrap_space.df <- st_set_crs(ThibaultTrap_space.df, 4326)
 ThibaultNet_tibble.df <- as_tibble(ThibaultNet.df)
 ThibaultNet_tibble.df <- dplyr::filter(ThibaultNet_tibble.df, !is.na(lonDD) & !is.na(latDD))
 ThibaultNet_space.df <- st_as_sf(ThibaultNet_tibble.df, coords = c("lonDD", "latDD"))
+ThibaultNet_space.df <- st_set_crs(ThibaultNet_space.df, 4326)
 
-# Create a data frame with the coordinates of the two points
-line_data <- data.frame(lonDD = c(48.931555,-66.4823333333333), latDD = c(48.9314,-66.4825466666667))
+x <- ThibaultNet_space.df[5, 7]
+y <- ThibaultNet_space.df[6, 7]
+
+
+new_df <- data.frame(
+  x = x,
+  y = y
+)
+
+# Print the new dataframe
+print(new_df)
+
+
+lon1 <- -66.48233
+lat1 <- 48.931555
+lon2 <- -66.48254
+lat2 <- 48.9314
+
+
+line_data <- data.frame(
+  x = lon1,
+  y = lat1,
+  xend = lon2,
+  yend = lat2
+)
 
 # Convert the data frame to a simple feature object with a LINESTRING geometry
-Thibaultline_space.sf <- st_as_sf(line_data, coords = c("lonDD", "latDD"), crs = 4326)
-
-Thibaultline_space.sf <- st_set_crs(line_sf, 4326)
+Thibaultline_space.sf <- st_as_sf(line_data, crs = 4326)
 
 ######
 #Plot
@@ -77,8 +100,7 @@ thib_plot <- ggplot() +
   geom_sf(data = ThibaultTU_space.df, aes(color = "ThibaultTU_space", shape = "ThibaultTU_space"), show.legend = TRUE) +
   geom_sf(data = ThibaultTrap_space.df, aes(color = "ThibaultTrap_space", shape = "ThibaultTrap_space"), show.legend = TRUE) +
   geom_sf(data = ThibaultNet_space.df, aes(color = "ThibaultNet_space", shape = "ThibaultNet_space"), show.legend = TRUE) +
-  geom_sf(data = Thibaultline_space.sf, color = "red", size = 1) +
-  #geom_path(data = ThibaultNet_space.df, aes(x = your_x_column, y = your_y_column, group = group_column), color = "blue") +  # Replace your_x_column, your_y_column, and group_column with appropriate column names
+  #geom_cast(data = new_df, "LINESTRING", color="red") + 
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
@@ -101,9 +123,7 @@ thib_plot <- ggplot() +
                     labels = c("Nets","Traps","Tip-Ups")) +
   scale_shape_manual(name = "Legend", 
                      values = c(16,15, 17),
-                     labels = c("Nets","Traps","Tip-Ups"))
-
-# Add scale and North arrow
+                     labels = c("Nets","Traps","Tip-Ups"))# Add scale and North arrow
 thib_plot <- thib_plot+
   ggspatial::annotation_scale(
     location = "br",
@@ -121,3 +141,10 @@ thib_plot <- thib_plot+
   )
 
 print(thib_plot)
+
+
+
+
+#+ xlim(c(min(lon1, lon2), max(lon1, lon2))
+       #+ ylim(c(min(lat1, lat2), max(lat1, lat2))
+              
