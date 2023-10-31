@@ -45,9 +45,6 @@ paul_plot <- ggplot() +
         axis.text.y= element_blank(),
         panel.background = element_rect(fill = "transparent", color = NA), 
         axis.ticks.x = element_blank(),
-        panel.border = element_rect(color = "black", 
-                                    fill = NA, 
-                                    linewidth = 2),
         axis.ticks.y = element_blank(), 
         legend.key = element_rect(fill = "transparent"), 
         plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm")) +
