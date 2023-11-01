@@ -81,4 +81,4 @@ paul_plot <- paul_plot+
   )
 
 print(paul_plot)
-
+ggsave("pauls22_plot.png", plot =paul_plot, width = 6, height = 4, dpi = 300)
