@@ -38,7 +38,6 @@ gouchNet_space.df <- st_set_crs(goucheNet_space.df, 4326)
 gouache_plot <- ggplot() +
   geom_sf(data = gouche_selected, color="#343A40", fill="#ADB5BD") +
   geom_sf(data = gouchNet_space.df, aes(color = "gouchNet_space", shape = "gouchNet_space"), show.legend = FALSE) +
-  coord_fixed(ratio = 1)+
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
@@ -49,7 +48,7 @@ gouache_plot <- ggplot() +
         #linewidth = 2),
         axis.ticks.y = element_blank(), 
         legend.key = element_rect(fill = "transparent"), 
-        plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm"))+
+        plot.margin = unit(c(1,1,1,1), "cm"))+
   #legend.text = element_text(size=8), 
   #legend.position = c(0.05, .95), 
   #legend.justification = c("right", "bottom"))
@@ -70,7 +69,7 @@ gouache_plot <- gouache_plot+
     text_family = "ArcherPro Book"
   ) +
   ggspatial::annotation_north_arrow(
-    location = "br", which_north = "true",
+    location = "tl", which_north = "true",
     pad_x = unit(0.4, "in"), pad_y = unit(0.4, "in"),
     style = ggspatial::north_arrow_fancy_orienteering(
       fill = c("grey40", "white"),
