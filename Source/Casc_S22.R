@@ -1,12 +1,3 @@
-##########
-#cascplot
-##########
-
-casc.df <- subset(gaspe.df, lake=="Cascapedia")
-cascS22.df <- subset(casc.df, Season=="S22")
-cascNet.df <- subset(cascS22.df, type=="NET")
-
-
 ######
 #casc
 ######
@@ -22,6 +13,18 @@ cascSpace <- cascSpace %>%
 urm <- 32620
 
 casc_selected <- dplyr::select(cascSpace, geometry) %>% st_zm()
+
+
+
+
+##########
+#cascplot
+##########
+
+casc.df <- subset(gaspe.df, lake=="Cascapedia")
+cascS22.df <- subset(casc.df, Season=="S22")
+cascNet.df <- subset(cascS22.df, type=="NET")
+
 
 
 
@@ -48,9 +51,6 @@ casc_plot <- ggplot() +
         panel.background = element_rect(fill = "transparent", color = NA), 
         axis.ticks.x = element_blank(),
         axis.ticks.y = element_blank(),
-        panel.border = element_rect(color = "black", 
-                                    fill = NA, 
-                                    linewidth = 2),
         legend.key = element_rect(fill = "transparent"), 
         plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm")) +
   #legend.text = element_text(size=8), 
