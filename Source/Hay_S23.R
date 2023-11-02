@@ -37,25 +37,35 @@ HayNetS23_space.df <- st_as_sf(HayNetS23_tibble.df, coords = c("lonDD", "latDD")
 HayNetS23_space.df <- st_set_crs(HayNetS23_space.df, 4326)
 
 
-#hayseg <- tibble(x=c(48.92858,48.92869), y=c(-66.27401,-66.27375))%>%
-  #st_as_sf(., coords=c("x", "y"))%>%
-  #st_set_crs(4326)
+hayseg <- tibble(x=c(48.92858,48.92869), y=c(-66.27401,-66.27375))%>%
+  st_as_sf(., coords=c("x", "y"))%>%
+  st_set_crs(4326)
 
 
-# Create a new data frame with start and end points
-#hayseg_segments <- hayseg %>%
-  #st_coordinates() %>%
-  #as.data.frame() 
+#Create a new data frame with start and end points
+hayseg_segments <- hayseg %>%
+  st_coordinates() %>%
+  as.data.frame() 
 
 
 # Select the 'geometry' column from 'th' and set Z and M values
 Hay_selected <- dplyr::select(HaySpace, geometry) %>% st_zm()
 
+    
+  start_point <- c(x = 48.92858, y = -66.27401)
+  end_point <- c(x = 48.92869, y = -66.27376)
+    
+#test.df <-  geom_sf(data=HayNetS23.df %>%
+           # unnest(lonDD, latDD) %>%
+            #st_as_sf(., coords=c("lonDD", "latDD")) %>%
+            #st_set_crs(4326))
+
 HayS23_plot <- ggplot() +
   geom_sf(data = Hay_selected , color="#343A40", fill="#ADB5BD") + 
-  geom_sf(data = HayNetS23_space.df, aes(color = "cascNet_space", shape = "cascNet_space"), show.legend = FALSE) +
-  #geom_segment(data = hayseg_segments, aes(x = hayseg_segments[1, 2], xend = hayseg_segments[2, 2], y = hayseg_segments[1, 1], yend = hayseg_segments[2, 1]))
-  #geom_path(data = hayseg_segments, aes(x = X, y = Y ), color = "blue") +
+  #geom_sf(data = HayNetS23_space.df, aes(color = "cascNet_space", shape = "cascNet_space"), show.legend = FALSE) +
+  geom_sf(data = hayseg, aes(color = "hayseg", shape = "hayseg"), show.legend = FALSE) +
+  #geom_segment(aes(x = start_point[1], y = start_point[2], xend = end_point[1], yend = end_point[2]),
+               #linetype = "dashed", color = "blue") +
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
@@ -63,19 +73,19 @@ HayS23_plot <- ggplot() +
         axis.ticks.x = element_blank(),
         axis.ticks.y = element_blank(),
         legend.key = element_rect(fill = "transparent"), 
-        plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm")) +
+        plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm")) 
   #legend.text = element_text(size=8), 
   #legend.position = c(0.05, .95), 
   #legend.justification = c("right", "bottom"))
-  scale_color_manual(name = "Legend", 
-                     values = c ("black"),
-                     labels = c("Nets")) +
-  scale_fill_manual(name = "Legend", 
-                    values = c( "black" ),
-                    labels = c("Nets")) +
-  scale_shape_manual(name = "Legend", 
-                     values = c(16),
-                     labels = c("Nets"))
+  #scale_color_manual(name = "Legend", 
+                     #values = c ("black"),
+                     #labels = c("Nets")) +
+  #scale_fill_manual(name = "Legend", 
+                    #values = c( "black" ),
+                    #labels = c("Nets")) +
+  #scale_shape_manual(name = "Legend", 
+                     #values = c(16),
+                     #labels = c("Nets"))
 
 # Add scale and North arrow
 HayS23_plot <- HayS23_plot+
@@ -96,3 +106,4 @@ HayS23_plot <- HayS23_plot+
 
 
 print(HayS23_plot)
+
