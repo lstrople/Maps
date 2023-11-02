@@ -71,15 +71,21 @@ Hay_selected <- dplyr::select(HaySpace, geometry) %>% st_zm()
     lon = HayNetS23_space.sf[1, 8],
     lat =  HayNetS23_space.sf[1, 9]
   )
+  data2 <- data.frame(
+    lon = HayNetS23_space.sf[2, 8],
+    lat =  HayNetS23_space.sf[2, 9]
+  )
 
-  sf_point <- st_as_sf(data$lat.geometry, coords = c("lat.geometry", "lon.geometry"), crs = 4326)
+  sf_point1 <- st_as_sf(data$lat.geometry, coords = c("lat.geometry", "lon.geometry"), crs = 4326)
+  sf_point2 <- st_as_sf(data2$lat.geometry, coords = c("lat.geometry", "lon.geometry"), crs = 4326)
+  
   
 HayS23_plot <- ggplot() +
   geom_sf(data = Hay_selected , color="#343A40", fill="#ADB5BD") + 
   #geom_sf(data = HayNetS23_space.df, aes(color = "cascNet_space", shape = "cascNet_space"), show.legend = FALSE) +
-  geom_sf(data = sf_point, color = "red", size = 3)+
-  #geom_segment(aes(x = start_point[1], y = start_point[2], xend = end_point[1], yend = end_point[2]),
-               #linetype = "dashed", color = "blue") +
+  #geom_sf(data = sf_point, color = "red", size = 3)+
+  geom_segment(aes(x = sf_point, y = sf_point, xend = sf_point2, yend = sf_point2),
+               linetype = "dashed", color = "blue") +
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
