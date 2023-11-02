@@ -59,19 +59,25 @@ Hay_selected <- dplyr::select(HaySpace, geometry) %>% st_zm()
            # unnest(lonDD, latDD) %>%
             #st_as_sf(., coords=c("lonDD", "latDD")) %>%
             #st_set_crs(4326))
-  
-  data <- data.frame(coordinates = c('POINT (-66.27401 48.92858)', 'POINT (-65.12345 49.56789)'))
-  
-  # Extract latitude and longitude using regular expressions
-  HayNetS23_space.df$latititude <- as.numeric(gsub("POINT \\((-?\\d+\\.\\d+) (-?\\d+\\.\\d+)\\)", "\\2", HayNetS23_space.df$geometry))
-  HayNetS23_space.df$longitude <- as.numeric(gsub("POINT \\((-?\\d+\\.\\d+) (-?\\d+\\.\\d+)\\)", "\\1", HayNetS23_space.df$geometry))
-  
-  head(HayNetS23_space.df)
 
+  HayNetS23_space.sf <- st_as_sf(HayNetS23_space.df, wkt = "geometry")
+  
+  # Extract latitude and longitude
+  HayNetS23_space.sf$latitude <- st_coordinates(HayNetS23_space.sf)[, 2]
+  HayNetS23_space.sf$longitude <- st_coordinates( HayNetS23_space.sf)[, 1]
+
+  
+  data <- data.frame(
+    lon = HayNetS23_space.sf[1, 8],
+    lat =  HayNetS23_space.sf[1, 9]
+  )
+
+  sf_point <- st_as_sf(data$lat.geometry, coords = c("lat.geometry", "lon.geometry"), crs = 4326)
+  
 HayS23_plot <- ggplot() +
   geom_sf(data = Hay_selected , color="#343A40", fill="#ADB5BD") + 
   #geom_sf(data = HayNetS23_space.df, aes(color = "cascNet_space", shape = "cascNet_space"), show.legend = FALSE) +
-  geom_sf(data = hayseg, aes(color = "hayseg", shape = "hayseg"), show.legend = FALSE) +
+  geom_sf(data = sf_point, color = "red", size = 3)+
   #geom_segment(aes(x = start_point[1], y = start_point[2], xend = end_point[1], yend = end_point[2]),
                #linetype = "dashed", color = "blue") +
   theme(panel.grid = element_blank(),
