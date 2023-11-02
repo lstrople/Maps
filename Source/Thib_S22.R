@@ -46,7 +46,7 @@ ThibaultNet_space.df <- st_set_crs(ThibaultNet_space.df, 4326)
 
 
 thib_plot <- ggplot() +
-  geom_sf(data = th_selected, color="#343A40", fill="#ADB5BD") + 
+  geom_sf(data = Thib_selected, color="#343A40", fill="#ADB5BD") + 
   geom_sf(data = ThibaultNet_space.df, aes(color = "ThibaultNet_space", shape = "ThibaultNet_space"), show.legend = TRUE) +
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
