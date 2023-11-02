@@ -37,9 +37,15 @@ HayNetS23_space.df <- st_as_sf(HayNetS23_tibble.df, coords = c("lonDD", "latDD")
 HayNetS23_space.df <- st_set_crs(HayNetS23_space.df, 4326)
 
 
-hayseg <- tibble(x=c(48.9285816666667,48.9286866666667), y=c(-66.2740083333333,-66.2737583333333))%>%
+hayseg <- tibble(x=c(48.92858,48.92869), y=c(-66.27401,-66.27375))%>%
   st_as_sf(., coords=c("x", "y"))%>%
   st_set_crs(4326)
+
+
+# Create a new data frame with start and end points
+hayseg_segments <- hayseg %>%
+  st_coordinates() %>%
+  as.data.frame() 
 
 
 # Select the 'geometry' column from 'th' and set Z and M values
@@ -48,8 +54,8 @@ Hay_selected <- dplyr::select(HaySpace, geometry) %>% st_zm()
 HayS23_plot <- ggplot() +
   geom_sf(data = Hay_selected , color="#343A40", fill="#ADB5BD") + 
   geom_sf(data = HayNetS23_space.df, aes(color = "cascNet_space", shape = "cascNet_space"), show.legend = FALSE) +
-  geom_segment(data = hayseg aes(x = hayseg, xend = lon2, y = lat, yend = lat2))
-  #geom_path(data = ThibaultNet_space.df, aes(x = your_x_column, y = your_y_column, group = group_column), color = "blue") +  # Replace your_x_column, your_y_column, and group_column with appropriate column names
+  #geom_segment(data = hayseg_segments, aes(x = hayseg_segments[1, 2], xend = hayseg_segments[2, 2], y = hayseg_segments[1, 1], yend = hayseg_segments[2, 1]))
+  geom_path(data = hayseg_segments, aes(x = X, y = Y ), color = "blue") +
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
