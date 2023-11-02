@@ -48,7 +48,7 @@ Hay_selected <- dplyr::select(HaySpace, geometry) %>% st_zm()
 HayS23_plot <- ggplot() +
   geom_sf(data = Hay_selected , color="#343A40", fill="#ADB5BD") + 
   geom_sf(data = HayNetS23_space.df, aes(color = "cascNet_space", shape = "cascNet_space"), show.legend = FALSE) +
-  #geom_segment(data = hayseg aes(x = hayseg, xend = lon2, y = lat, yend = lat2))
+  geom_segment(data = hayseg aes(x = hayseg, xend = lon2, y = lat, yend = lat2))
   #geom_path(data = ThibaultNet_space.df, aes(x = your_x_column, y = your_y_column, group = group_column), color = "blue") +  # Replace your_x_column, your_y_column, and group_column with appropriate column names
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
