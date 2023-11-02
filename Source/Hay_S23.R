@@ -59,6 +59,14 @@ Hay_selected <- dplyr::select(HaySpace, geometry) %>% st_zm()
            # unnest(lonDD, latDD) %>%
             #st_as_sf(., coords=c("lonDD", "latDD")) %>%
             #st_set_crs(4326))
+  
+  data <- data.frame(coordinates = c('POINT (-66.27401 48.92858)', 'POINT (-65.12345 49.56789)'))
+  
+  # Extract latitude and longitude using regular expressions
+  HayNetS23_space.df$latititude <- as.numeric(gsub("POINT \\((-?\\d+\\.\\d+) (-?\\d+\\.\\d+)\\)", "\\2", HayNetS23_space.df$geometry))
+  HayNetS23_space.df$longitude <- as.numeric(gsub("POINT \\((-?\\d+\\.\\d+) (-?\\d+\\.\\d+)\\)", "\\1", HayNetS23_space.df$geometry))
+  
+  head(HayNetS23_space.df)
 
 HayS23_plot <- ggplot() +
   geom_sf(data = Hay_selected , color="#343A40", fill="#ADB5BD") + 
