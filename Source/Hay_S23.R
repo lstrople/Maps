@@ -33,8 +33,8 @@ HayNetS23.df <- subset(HayS23.df, type=="NET")
 
 HayNetS23_tibble.df <- as_tibble(HayNetS23.df)
 HayNetS23_tibble.df <- dplyr::filter(HayNetS23_tibble.df, !is.na(lonDD) & !is.na(latDD))
-HayNetS23_space.df <- st_as_sf(HayNetS23_tibble.df, coords = c("lonDD", "latDD"))
-HayNetS23_space.df <- st_set_crs(HayNetS23_space.df, 4326)
+HayNetS23_space.sf <- st_as_sf(HayNetS23_tibble.df, coords = c("lonDD", "latDD"))
+HayNetS23_space.sf <- st_set_crs(HayNetS23_space.df, 4326)
 
 
 hayseg <- tibble(x=c(48.92858,48.92869), y=c(-66.27401,-66.27375))%>%
@@ -68,24 +68,79 @@ Hay_selected <- dplyr::select(HaySpace, geometry) %>% st_zm()
 
   
   data <- data.frame(
-    lon = HayNetS23_space.sf[1, 8],
-    lat =  HayNetS23_space.sf[1, 9]
+    geom = c(HayNetS23_space.sf[1, 7],
+             HayNetS23_space.sf[2, 7])
   )
-  data2 <- data.frame(
-    lon = HayNetS23_space.sf[2, 8],
-    lat =  HayNetS23_space.sf[2, 9]
-  )
+  
+  point1 <- HayNetS23_space.sf[1, 7]
+  point2 <- HayNetS23_space.sf[2, 7]
+  
+  
+  # Set the CRS to WGS84 (EPSG:4326)
+  sf_points <- st_as_sf(data, coords = c("lon", "lat"), crs = 4326)
+  
+  
+  
+  connections_df <- data.frame(
+    from = c(1, 2, 3),  # Index of the starting points in sf_object
+    to = c(4, 5, 6)     # Index of the ending points in sf_object
 
-  sf_point1 <- st_as_sf(data$lat.geometry, coords = c("lat.geometry", "lon.geometry"), crs = 4326)
-  sf_point2 <- st_as_sf(data2$lat.geometry, coords = c("lat.geometry", "lon.geometry"), crs = 4326)
+  )
   
+  str(connections_df)
   
+  # Verify that the indices in connections_df are valid
+  valid_indices <- all(connections_df$from > 0 & connections_df$from <= nrow(HayNetS23_space.sf) &
+                         connections_df$to > 0 & connections_df$to <= nrow(HayNetS23_space.sf))
+  
+  if (!valid_indices) {
+    stop("Invalid indices in connections_df")
+  }
+  
+  extracted_from_rows <- HayNetS23_space.sf[connections_df$from, ]
+  extracted_to_rows <- HayNetS23_space.sf[connections_df$to, ]
+  
+  # Check the structure of extracted rows
+  str(extracted_from_rows)
+  str(extracted_to_rows)
+  
+  # Create an sf object for the lines
+  lines_sf <- st_sf(
+    geometry = st_cast(HayNetS23_space.sf[connections_df$from, ], "LINESTRING")
+  )
+  
+  head(lines_sf)
+  
+  lines_to_sf <- st_sf(
+    geometry = st_cast(HayNetS23_space.sf[connections_df$to, ], "LINESTRING")
+  )9
+  
+
+line <- st_sfc(st_linestring(st_coordinates(HayNetS23_space.sf)),
+               crs = st_crs(HayNetS23_space.sf))
+
+allCoords <- as.matrix(st_coordinates(HayNetS23_space.sf))
+test <- lapply(1:nrow(connections_df),
+       function(r){
+         rbind(allCoords[connections_df[r,1], ],
+               allCoords[connections_df[r,2], ])
+       }) %>%
+  st_multilinestring(.) %>%
+  st_sfc(., crs = st_crs(HayNetS23_space.sf))
+
+plot(test)
+
+
+
+plot(line)
+  
+
 HayS23_plot <- ggplot() +
   geom_sf(data = Hay_selected , color="#343A40", fill="#ADB5BD") + 
-  #geom_sf(data = HayNetS23_space.df, aes(color = "cascNet_space", shape = "cascNet_space"), show.legend = FALSE) +
-  #geom_sf(data = sf_point, color = "red", size = 3)+
-  geom_segment(aes(x = sf_point, y = sf_point, xend = sf_point2, yend = sf_point2),
-               linetype = "dashed", color = "blue") +
+  geom_sf(data = HayNetS23_space.df, aes(color = "cascNet_space", shape = "cascNet_space"), show.legend = FALSE) +
+  geom_sf(data = test, color = "red", aes(linetype = "1"))+
+  #geom_segment(aes(x = point1, y = point1, xend = point2, yend = point2),
+               #linetype = "dashed", color = "blue") +
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
@@ -113,17 +168,10 @@ HayS23_plot <- HayS23_plot+
     location = "br",
     bar_cols = c("grey60", "white"),
     text_family = "ArcherPro Book"
-  ) +
-  ggspatial::annotation_north_arrow(
-    location = "tr", which_north = "true",
-    pad_x = unit(0.4, "in"), pad_y = unit(0.4, "in"),
-    style = ggspatial::north_arrow_fancy_orienteering(
-      fill = c("grey40", "white"),
-      line_col = "grey20",
-      text_family = "ArcherPro Book"
-    )
-  )
+  ) 
 
 
 print(HayS23_plot)
+
+head(HayNetS23_space.df)
 
