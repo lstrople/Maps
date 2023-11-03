@@ -37,7 +37,6 @@ HayNetS23_space.sf <- st_as_sf(HayNetS23_tibble.df, coords = c("lonDD", "latDD")
 HayNetS23_space.sf <- st_set_crs(HayNetS23_space.df, 4326)
 
 
-
 # Select the 'geometry' column from 'th' and set Z and M values
 Hay_selected <- dplyr::select(HaySpace, geometry) %>% st_zm()
 
@@ -49,12 +48,11 @@ Hay_selected <- dplyr::select(HaySpace, geometry) %>% st_zm()
   )
 
 
-
 line <- st_sfc(st_linestring(st_coordinates(HayNetS23_space.sf)),
                crs = st_crs(HayNetS23_space.sf))
 
 allCoords <- as.matrix(st_coordinates(HayNetS23_space.sf))
-test <- lapply(1:nrow(connections_df),
+HayS23lines <- lapply(1:nrow(connections_df),
        function(r){
          rbind(allCoords[connections_df[r,1], ],
                allCoords[connections_df[r,2], ])
@@ -62,17 +60,10 @@ test <- lapply(1:nrow(connections_df),
   st_multilinestring(.) %>%
   st_sfc(., crs = st_crs(HayNetS23_space.sf))
 
-plot(test)
-
-
-
-plot(line)
-  
-
 HayS23_plot <- ggplot() +
   geom_sf(data = Hay_selected , color="#343A40", fill="#ADB5BD") + 
-  geom_sf(data = HayNetS23_space.df, aes(color = "cascNet_space", shape = "cascNet_space"), show.legend = TRUE) +
-  geom_sf(data = test, color = "black", linetype="dashed" )+
+  geom_sf(data = HayNetS23_space.df, color = "black", shape=16) +
+  geom_sf(data = test, color = "black", linetype="dashed")+
   #geom_segment(aes(x = point1, y = point1, xend = point2, yend = point2),
                #linetype = "dashed", color = "blue") +
   theme(panel.grid = element_blank(),
@@ -85,16 +76,8 @@ HayS23_plot <- ggplot() +
         plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm"),
   legend.text = element_text(size=8), 
   legend.position = c(0.05, .95), 
-  legend.justification = c("right", "bottom"),
-  scale_color_manual(name = "Legend", 
-                     values = c ("black"),
-                     labels = c("Nets")) +
-  scale_fill_manual(name = "Legend", 
-                    values = c( "black"),
-                    labels = c("Nets")) +
-  scale_shape_manual(name = "Legend", 
-                     values = c(16),
-                     labels = c("Nets")))
+  legend.justification = c("right", "bottom"))
+
 
 # Add scale and North arrow
 HayS23_plot <- HayS23_plot+
