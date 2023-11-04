@@ -64,8 +64,6 @@ HayS23_plot <- ggplot() +
   geom_sf(data = Hay_selected , color="#343A40", fill="#ADB5BD") + 
   geom_sf(data = HayNetS23_space.df, color = "black", shape=16) +
   geom_sf(data = test, color = "black", linetype="dashed")+
-  #geom_segment(aes(x = point1, y = point1, xend = point2, yend = point2),
-               #linetype = "dashed", color = "blue") +
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
@@ -74,9 +72,9 @@ HayS23_plot <- ggplot() +
         axis.ticks.y = element_blank(),
         legend.key = element_rect(fill = "transparent"), 
         plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm"),
-  legend.text = element_text(size=8), 
-  legend.position = c(0.05, .95), 
-  legend.justification = c("right", "bottom"))
+        legend.text = element_text(size=8), 
+        legend.position = c(0.05, .95), 
+        legend.justification = c("right", "bottom"))
 
 
 # Add scale and North arrow
