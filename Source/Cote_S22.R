@@ -2,6 +2,7 @@
 #must run main map file before use
 ###################################
 
+
 coteSpace <- st_read("cote.KML") %>%
   st_transform(32620)
 
