@@ -1,14 +1,3 @@
-##########
-#cascplot
-##########
-
-casc.df <- subset(gaspe.df, lake=="Cascapedia")
-cascW23.df <- subset(casc.df, Season=="W23")
-cascTU.df <- subset(cascW23.df, type=="TU")
-cascTrap.df <- subset(cascW23.df, type=="trap")
-
-
-
 ######
 #casc
 ######
@@ -25,12 +14,18 @@ urm <- 32620
 
 casc_selected <- dplyr::select(cascSpace, geometry) %>% st_zm()
 
+##########
+#cascplot
+##########
 
+casc.df <- subset(gaspe.df, lake=="Cascapedia")
+cascW23.df <- subset(casc.df, Season=="W23")
+cascTU.df <- subset(cascW23.df, type=="TU")
+cascTrap.df <- subset(cascW23.df, type=="trap")
 
 ###########
 #convert TU
-###########
-
+##########
 
 cascTU_tibble.df <- as_tibble(cascTU.df)
 cascTU_tibble.df <- dplyr::filter(cascTU_tibble.df, !is.na(lonDD) & !is.na(latDD))
@@ -47,10 +42,11 @@ cascTrap_tibble.df <- dplyr::filter(cascTrap_tibble.df, !is.na(lonDD) & !is.na(l
 cascTrap_space.df <- st_as_sf(cascTrap_tibble.df, coords = c("lonDD", "latDD"))
 cascTrap_space.df <- st_set_crs(cascTrap_space.df, 4326)
 
+
 # Select the 'geometry' column from 'th' and set Z and M values
 casc_selected <- dplyr::select(cascSpace, geometry) %>% st_zm()
 
-casc_plot <- ggplot() +
+cascW23_plot <- ggplot() +
   geom_sf(data = casc_selected, color="#343A40", fill="#ADB5BD") + 
   geom_sf(data = cascTrap_space.df, aes(color = "cascTrap_space", shape = "cascTrap_space"), show.legend = FALSE) +
   geom_sf(data = cascTU_space.df, aes(color = "cascTU_space", shape = "cascTU_space"), show.legend = FALSE) +
@@ -61,9 +57,6 @@ casc_plot <- ggplot() +
         panel.background = element_rect(fill = "transparent", color = NA), 
         axis.ticks.x = element_blank(),
         axis.ticks.y = element_blank(),
-        panel.border = element_rect(color = "black", 
-                                    fill = NA, 
-                                    linewidth = 2),
         legend.key = element_rect(fill = "transparent"), 
         plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm")) +
   #legend.text = element_text(size=8), 
@@ -80,7 +73,7 @@ casc_plot <- ggplot() +
                      labels = c("Traps","Tip-Ups"))
 
 # Add scale and North arrow
-casc_plot <- casc_plot+
+cascW23_plot <- cascW23_plot+
   ggspatial::annotation_scale(
     location = "br",
     bar_cols = c("grey60", "white"),
@@ -97,6 +90,11 @@ casc_plot <- casc_plot+
   )
 
 
-print(casc_plot)
+print(cascW23_plot)
+
+ggsave("CascW23.png", plot = cascW23_plot, width = 7, height = 5, units = "in", dpi = 300)
+
+
+
 
 
