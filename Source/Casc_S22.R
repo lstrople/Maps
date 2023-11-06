@@ -41,10 +41,29 @@ cascNet_space.df <- st_set_crs(cascNet_space.df, 4326)
 # Select the 'geometry' column from 'th' and set Z and M values
 casc_selected <- dplyr::select(cascSpace, geometry) %>% st_zm()
 
-casc_plot <- ggplot() +
+connections_df <- data.frame(
+  from = c(1, 2, 3, 4),  # Index of the starting points in sf_object
+  to = c(5, 6, 7, 8)     # Index of the ending points in sf_object
+  
+)
+
+
+line <- st_sfc(st_linestring(st_coordinates(cascNet_space.df)),
+               crs = st_crs(cascNet_space.df))
+
+allCoords <- as.matrix(st_coordinates(cascNet_space.df))
+lines <- lapply(1:nrow(connections_df),
+                function(r){
+                  rbind(allCoords[connections_df[r,1], ],
+                        allCoords[connections_df[r,2], ])
+                }) %>%
+  st_multilinestring(.) %>%
+  st_sfc(., crs = st_crs(cascNet_space.df))
+
+cascS22_plot <- ggplot() +
   geom_sf(data = casc_selected, color="#343A40", fill="#ADB5BD") + 
   geom_sf(data = cascNet_space.df, aes(color = "cascNet_space", shape = "cascNet_space"), show.legend = FALSE) +
-  #geom_path(data = ThibaultNet_space.df, aes(x = your_x_column, y = your_y_column, group = group_column), color = "blue") +  # Replace your_x_column, your_y_column, and group_column with appropriate column names
+  geom_sf(data = lines, color = "black", linetype="dashed")+
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
@@ -67,7 +86,7 @@ casc_plot <- ggplot() +
                      labels = c("Nets"))
 
 # Add scale and North arrow
-casc_plot <- casc_plot+
+cascS22_plot <- cascS22_plot+
   ggspatial::annotation_scale(
     location = "br",
     bar_cols = c("grey60", "white"),
@@ -84,4 +103,8 @@ casc_plot <- casc_plot+
   )
 
 
-print(casc_plot)
+print(cascS22_plot)
+
+ggsave("CascS22.png", plot =cascS22_plot, width = 7, height = 5, units = "in", dpi = 300)
+
+
