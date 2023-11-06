@@ -24,6 +24,7 @@ paul_selected <- dplyr::select(coteSpace, geometry) %>% st_zm()
 cote.df <- subset(gaspe.df, lake=="Cote")
 coteS22.df <- subset(cote.df, Season=="S22")
 coteNet.df <- subset(coteS22.df, type=="NET")
+coteTrap.df <- subset(coteS22.df, type=="Trap")
 
 
 ##############
@@ -35,13 +36,42 @@ coteNet_tibble.df <- dplyr::filter(coteNet_tibble.df, !is.na(lonDD) & !is.na(lat
 cotetNet_space.df <- st_as_sf(coteNet_tibble.df, coords = c("lonDD", "latDD"))
 coteNet_space.df <- st_set_crs(cotetNet_space.df, 4326)
 
+#########
+#Trap
+########
+CotetrapS22_tibble.df <- as_tibble(coteTrap.df)
+CotetrapS22_tibble.df <- dplyr::filter(CotetrapS22_tibble.df, !is.na(lonDD) & !is.na(latDD))
+CotetrapS22_space.df <- st_as_sf(CotetrapS22_tibble.df, coords = c("lonDD", "latDD"))
+CotetrapS22_space.df <- st_set_crs(CotetrapS22_space.df, 4326)
+
 
 # Select the 'geometry' column from 'th' and set Z and M values
 cote_selected <- dplyr::select(coteSpace, geometry) %>% st_zm()
 
-cote_plot <- ggplot() +
+connections_df <- data.frame(
+  from = c(1, 2, 3, 4),  # Index of the starting points in sf_object
+  to = c(5, 6, 7, 8)     # Index of the ending points in sf_object
+  
+)
+
+
+line <- st_sfc(st_linestring(st_coordinates(coteNet_space.df)),
+               crs = st_crs(coteNet_space.df))
+
+allCoords <- as.matrix(st_coordinates(coteNet_space.df))
+lines <- lapply(1:nrow(connections_df),
+                function(r){
+                  rbind(allCoords[connections_df[r,1], ],
+                        allCoords[connections_df[r,2], ])
+                }) %>%
+  st_multilinestring(.) %>%
+  st_sfc(., crs = st_crs(coteNet_space.df))
+
+coteS22_plot <- ggplot() +
   geom_sf(data = cote_selected, color="#343A40", fill="#ADB5BD") +
   geom_sf(data = coteNet_space.df, aes(color = "coteNet_space", shape = "coteNet_space"), show.legend = FALSE) +
+  geom_sf(data = CotetrapS22_space.df, aes(color = "CotetrapS22_space", shape = "CotetrapS22_space"), show.legend = FALSE) +
+  geom_sf(data = lines, color = "black", linetype="dashed") +
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
@@ -53,22 +83,19 @@ cote_plot <- ggplot() +
         axis.ticks.y = element_blank(), 
         legend.key = element_rect(fill = "transparent"), 
         plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm"))+
-  #legend.text = element_text(size=8), 
-  #legend.position = c(0.05, .95), 
-  #legend.justification = c("right", "bottom"))
   scale_color_manual(name = "Legend", 
-                     values = c ("black"),
-                     labels = c("Nets")) +
+                     values = c ("#212529","#6C757D"),
+                     labels = c("Nets","Tip-Ups")) +
   scale_fill_manual(name = "Legend", 
-                    values = c( "black" ),
-                    labels = c("Nets")) +
+                    values = c( "#212529","#6C757D"),
+                    labels = c("Nets","Tip-Ups")) +
   scale_shape_manual(name = "Legend", 
-                     values = c(16),
-                     labels = c("Nets"))
+                     values = c(16, 17),
+                     labels = c("Nets","Tip-Ups"))
 
-cote_plot <- cote_plot+
+coteS22_plot <- coteS22_plot+
   ggspatial::annotation_scale(
-    location = "br",
+    location = "bl",
     bar_cols = c("grey60", "white"),
     text_family = "ArcherPro Book"
   ) +
@@ -82,4 +109,10 @@ cote_plot <- cote_plot+
     )
   )
 
-print(cote_plot)
+print(coteS22_plot)
+
+
+ggsave("CoteS22.png", plot = coteS22_plot, width = 7, height = 5, units = "in", dpi = 300)
+
+
+
