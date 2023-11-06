@@ -52,7 +52,7 @@ line <- st_sfc(st_linestring(st_coordinates(HayNetS23_space.sf)),
                crs = st_crs(HayNetS23_space.sf))
 
 allCoords <- as.matrix(st_coordinates(HayNetS23_space.sf))
-HayS23lines <- lapply(1:nrow(connections_df),
+lines <- lapply(1:nrow(connections_df),
        function(r){
          rbind(allCoords[connections_df[r,1], ],
                allCoords[connections_df[r,2], ])
@@ -63,7 +63,7 @@ HayS23lines <- lapply(1:nrow(connections_df),
 HayS23_plot <- ggplot() +
   geom_sf(data = Hay_selected , color="#343A40", fill="#ADB5BD") + 
   geom_sf(data = HayNetS23_space.df, color = "black", shape=16) +
-  geom_sf(data = test, color = "black", linetype="dashed")+
+  geom_sf(data = lines, color = "black", linetype="dashed")+
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
@@ -87,5 +87,7 @@ HayS23_plot <- HayS23_plot+
 
 
 print(HayS23_plot)
+
+ggsave("HayS23.png", plot = HayS23_plot, width = 7, height = 5, units = "in", dpi = 300)
 
 
