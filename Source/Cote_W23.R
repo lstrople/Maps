@@ -50,7 +50,7 @@ coteTrap_space.df <- st_set_crs(coteTrap_space.df, 4326)
 # Select the 'geometry' column from 'th' and set Z and M values
 cote_selected <- dplyr::select(coteSpace, geometry) %>% st_zm()
 
-cote_plot <- ggplot() +
+coteW23_plot <- ggplot() +
   geom_sf(data = cote_selected, color="#343A40", fill="#ADB5BD") +
   geom_sf(data =  coteTU_space.df, aes(color = "coteTU_space", shape = "coteTU_space"), show.legend = FALSE) +
   geom_sf(data = coteTrap_space.df, aes(color = "coteTrap_space", shape = "coteTrap_space"), show.legend =FALSE) +
@@ -79,9 +79,9 @@ cote_plot <- ggplot() +
                      labels = c("Traps","Tip-Ups"))
 #labels = c("Traps", "Tip-Ups"))
 
-cote_plot <- cote_plot+
+coteW23_plot <- coteW23_plot+
   ggspatial::annotation_scale(
-    location = "br",
+    location = "bl",
     bar_cols = c("grey60", "white"),
     text_family = "ArcherPro Book"
   ) +
@@ -95,5 +95,8 @@ cote_plot <- cote_plot+
     )
   )
 
-print(cote_plot)
+print(coteW23_plot)
+
+ggsave("CoteW23.png", plot =coteW23_plot, width = 7, height = 5, units = "in", dpi = 300)
+
 
