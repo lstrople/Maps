@@ -85,13 +85,13 @@ coteS22_plot <- ggplot() +
         plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm"))+
   scale_color_manual(name = "Legend", 
                      values = c ("#212529","#6C757D"),
-                     labels = c("Nets","Tip-Ups")) +
+                     labels = c("Nets","Traps")) +
   scale_fill_manual(name = "Legend", 
                     values = c( "#212529","#6C757D"),
-                    labels = c("Nets","Tip-Ups")) +
+                    labels = c("Nets","Traps")) +
   scale_shape_manual(name = "Legend", 
-                     values = c(16, 17),
-                     labels = c("Nets","Tip-Ups"))
+                     values = c(16, 15),
+                     labels = c("Nets","Traps"))
 
 coteS22_plot <- coteS22_plot+
   ggspatial::annotation_scale(
