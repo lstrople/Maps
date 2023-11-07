@@ -102,3 +102,6 @@ cascS23_plot <- cascS23_plot+
 
 
 print(cascS23_plot)
+
+ggsave("CascS23.png", plot =cascS23_plot, width = 7, height = 5, units = "in", dpi = 300)
+
