@@ -52,8 +52,8 @@ cote_selected <- dplyr::select(coteSpace, geometry) %>% st_zm()
 
 coteW23_plot <- ggplot() +
   geom_sf(data = cote_selected, color="#343A40", fill="#ADB5BD") +
-  geom_sf(data =  coteTU_space.df, aes(color = "coteTU_space", shape = "coteTU_space"), show.legend = FALSE) +
-  geom_sf(data = coteTrap_space.df, aes(color = "coteTrap_space", shape = "coteTrap_space"), show.legend =FALSE) +
+  geom_sf(data =  coteTU_space.df, aes(color = "coteTU_space", shape = "coteTU_space"), show.legend = TRUE) +
+  geom_sf(data = coteTrap_space.df, aes(color = "coteTrap_space", shape = "coteTrap_space"), show.legend = TRUE) +
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
