@@ -53,26 +53,12 @@ connections_df <- data.frame(
 
 line <- st_sfc(st_linestring(st_coordinates(PaulNet_space.df)),
                crs = st_crs(PaulNet_space.df))
-#Paul map
-#########
-paulSpace <- st_read("Paul.KML") %>%
-  st_transform(32620)
-
-paulSpace <- paulSpace %>%
-  slice(1) %>%
-  st_difference(paulSpace %>% slice(2)) %>%
-  st_difference(paulSpace %>% slice(3)) %>%
-  st_difference(paulSpace %>% slice(4))
-
-urm <- 32620
-
-paul_selected <- dplyr::select(paulSpace, geometry) %>% st_zm()
 
 
 Paul.df <- subset(gaspe.df, lake=="Paul")
-PaulW23.df <- subset(Paul.df, Season=="W23")
-PaulTU.df <- subset(PaulW23.df, type=="TU")
-PaulNet.df <- subset(PaulW23.df, type=="NET")
+PaulW22.df <- subset(Paul.df, Season=="W22")
+PaulTU.df <- subset(PaulW22.df, type=="TU")
+PaulNet.df <- subset(PaulW22.df, type=="NET")
 
 
 ###########
@@ -100,8 +86,8 @@ PaulNet_space.df <- st_set_crs(PaulNet_space.df, 4326)
 ######
 
 connections_df <- data.frame(
-  from = c(1, 2, 3, 4, 5),  # Index of the starting points in sf_object
-  to = c(6, 7, 8, 9, 10)     # Index of the ending points in sf_object
+  from = c(1, 2, 3, 5),  # Index of the starting points in sf_object
+  to = c(6, 7, 8, 10)     # Index of the ending points in sf_object
   
 )
 
@@ -132,7 +118,7 @@ paulW22_plot <- ggplot() +
   geom_sf(data = paul_selected, color="#343A40", fill="#ADB5BD") +
   geom_sf(data = PaulNet_space.df, aes(color = "PaulNet_space", shape = "PaulNet_space"), show.legend = TRUE) +
   geom_sf(data = PaulTU_space.df, aes(color = "PaulTU_space", shape = "PaulTU_space"), show.legend = TRUE) +
-  geom_sf(data = lines, color = "black", linetype="dashed")+
+  geom_sf(data = lines, color = "black", linetype="solid")+
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
@@ -142,10 +128,10 @@ paulW22_plot <- ggplot() +
         legend.key = element_rect(fill = "transparent"), 
         plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm")) +
   scale_color_manual(name = "Legend", 
-                     values = c ("#6C757D","#212529"),
+                     values = c ("black","#6C757D"),
                      labels = c("Nets", "Tip-Ups")) +
   scale_fill_manual(name = "Legend", 
-                    values = c( "#6C757D","#212529"),
+                    values = c("black","#6C757D"),
                     labels = c("Nets", "Tip-Ups")) +
   scale_shape_manual(name = "Legend", 
                      values = c(16, 17),
@@ -172,6 +158,6 @@ paulW22_plot <- paulW22_plot+
 
 print(paulW22_plot)
 
-ggsave("PaulW22.png", plot =paulW22_plot, width = 7, height = 5, units = "in", dpi = 300)
+ggsave("PaulW22.png", plot = paulW22_plot, width = 7, height = 5, units = "in", dpi = 300)
 
 

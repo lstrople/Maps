@@ -76,7 +76,7 @@ thibW22_plot <- ggplot() +
   geom_sf(data = Thib_selected, color="#343A40", fill="#ADB5BD") + 
   geom_sf(data = ThibaultNet_space.df, aes(color = "ThibaultNet_space", shape = "ThibaultNet_space"), show.legend = TRUE) +
   geom_sf(data = ThibaultTU_space.df, aes(color = "ThibaultTU_space", shape = "ThibaultTU_space"), show.legend = TRUE) +
-  geom_sf(data = lines, color = "black", linetype="dashed") +
+  geom_sf(data = lines, color = "black", linetype="solid") +
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
