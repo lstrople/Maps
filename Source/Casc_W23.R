@@ -48,8 +48,8 @@ casc_selected <- dplyr::select(cascSpace, geometry) %>% st_zm()
 
 cascW23_plot <- ggplot() +
   geom_sf(data = casc_selected, color="#343A40", fill="#ADB5BD") + 
-  geom_sf(data = cascTrap_space.df, aes(color = "cascTrap_space", shape = "cascTrap_space"), show.legend = FALSE) +
-  geom_sf(data = cascTU_space.df, aes(color = "cascTU_space", shape = "cascTU_space"), show.legend = FALSE) +
+  geom_sf(data = cascTrap_space.df, aes(color = "cascTrap_space", shape = "cascTrap_space"), show.legend = TRUE) +
+  geom_sf(data = cascTU_space.df, aes(color = "cascTU_space", shape = "cascTU_space"), show.legend = TRUE) +
   #geom_path(data = ThibaultNet_space.df, aes(x = your_x_column, y = your_y_column, group = group_column), color = "blue") +  # Replace your_x_column, your_y_column, and group_column with appropriate column names
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
