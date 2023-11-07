@@ -40,28 +40,44 @@ ThibaultNet_space.df <- st_as_sf(ThibaultNet_tibble.df, coords = c("lonDD", "lat
 ThibaultNet_space.df <- st_set_crs(ThibaultNet_space.df, 4326)
 
 
+connections_df <- data.frame(
+  from = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),  # Index of the starting points in sf_object
+  to = c(11, 12, 13, 14, 15, 16, 17, 18, 19, 20)     # Index of the ending points in sf_object
+  
+)
+
+
+line <- st_sfc(st_linestring(st_coordinates(ThibaultNet_space.df)),
+               crs = st_crs(ThibaultNet_space.df))
+
+allCoords <- as.matrix(st_coordinates(ThibaultNet_space.df))
+lines <- lapply(1:nrow(connections_df),
+                function(r){
+                  rbind(allCoords[connections_df[r,1], ],
+                        allCoords[connections_df[r,2], ])
+                }) %>%
+  st_multilinestring(.) %>%
+  st_sfc(., crs = st_crs(ThibaultNet_space.df))
+plot(lines)
+
+
 ######
 #Plot
 ######
 
 
-thib_plot <- ggplot() +
+thibS23_plot <- ggplot() +
   geom_sf(data = Thib_selected, color="#343A40", fill="#ADB5BD") + 
   geom_sf(data = ThibaultNet_space.df, aes(color = "ThibaultNet_space", shape = "ThibaultNet_space"), show.legend = TRUE) +
+  geom_sf(data = lines, color = "black", linetype="dashed") +
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
         panel.background = element_rect(fill = "transparent", color = NA, size = 2), 
         axis.ticks.x = element_blank(),
         axis.ticks.y = element_blank(), 
-        #panel.border = element_rect(color = "black", 
-        #fill = NA, 
-        #linewidth = 2),
         legend.key = element_rect(fill = "transparent"), 
         plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm"))+
-  #legend.text = element_text(size=8), 
-  #legend.position = c(0.05, .95), 
-  #legend.justification = c("right", "bottom"))
   scale_color_manual(name = "Legend", 
                      values = c ("black"),
                      labels = c("Nets")) +
@@ -72,7 +88,7 @@ thib_plot <- ggplot() +
                      values = c(16),
                      labels = c("Nets"))# Add scale and North arrow
 
-thib_plot <- thib_plot+
+thibS23_plot <- thibS23_plot+
   ggspatial::annotation_scale(
     location = "br",
     bar_cols = c("grey60", "white"),
@@ -88,4 +104,6 @@ thib_plot <- thib_plot+
     )
   )
 
-print(thib_plot)
+print(thibS23_plot)
+ggsave("ThibS23.png", plot =thibS23_plot, width = 7, height = 5, units = "in", dpi = 300)
+
