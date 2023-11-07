@@ -78,7 +78,7 @@ paulW23_plot <- ggplot() +
   geom_sf(data = paul_selected, color="#343A40", fill="#ADB5BD") +
   geom_sf(data = PaulNet_space.df, aes(color = "PaulNet_space", shape = "PaulNet_space"), show.legend = TRUE) +
   geom_sf(data = PaulTU_space.df, aes(color = "PaulTU_space", shape = "PaulTU_space"), show.legend = TRUE) +
-  geom_sf(data = lines, color = "black", linetype="dashed")+
+  geom_sf(data = lines, color = "black", linetype="solid")+
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
@@ -88,10 +88,10 @@ paulW23_plot <- ggplot() +
         legend.key = element_rect(fill = "transparent"), 
         plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm")) +
   scale_color_manual(name = "Legend", 
-                     values = c ("#6C757D","#212529"),
+                     values = c ("black","#212529"),
                      labels = c("Nets", "Tip-Ups")) +
   scale_fill_manual(name = "Legend", 
-                    values = c( "#6C757D","#212529"),
+                    values = c( "black","#212529"),
                     labels = c("Nets", "Tip-Ups")) +
   scale_shape_manual(name = "Legend", 
                      values = c(16, 17),
