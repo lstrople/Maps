@@ -62,8 +62,8 @@ lines <- lapply(1:nrow(connections_df),
 
 cascS22_plot <- ggplot() +
   geom_sf(data = casc_selected, color="#343A40", fill="#ADB5BD") + 
-  geom_sf(data = cascNet_space.df, aes(color = "cascNet_space", shape = "cascNet_space"), show.legend = FALSE) +
-  geom_sf(data = lines, color = "black", linetype="dashed")+
+  geom_sf(data = cascNet_space.df, aes(color = "cascNet_space", shape = "cascNet_space"), show.legend = TRUE) +
+  geom_sf(data = lines, color = "black", linetype="solid")+
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
