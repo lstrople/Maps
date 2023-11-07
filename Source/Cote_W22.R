@@ -62,8 +62,8 @@ lines <- lapply(1:nrow(connections_df),
 
 coteW22_plot <- ggplot() +
   geom_sf(data = cote_selected, color="#343A40", fill="#ADB5BD") +
-  geom_sf(data = coteNet_space.df, aes(color = "coteNet_space", shape = "coteNet_space"), show.legend = FALSE) +
-  geom_sf(data = lines, color = "black", linetype="dashed") +
+  geom_sf(data = coteNet_space.df, aes(color = "coteNet_space", shape = "coteNet_space"), show.legend = TRUE) +
+  geom_sf(data = lines, color = "black", linetype="solid") +
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
