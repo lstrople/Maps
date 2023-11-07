@@ -33,8 +33,8 @@ HayNetS23.df <- subset(HayS23.df, type=="NET")
 
 HayNetS23_tibble.df <- as_tibble(HayNetS23.df)
 HayNetS23_tibble.df <- dplyr::filter(HayNetS23_tibble.df, !is.na(lonDD) & !is.na(latDD))
-HayNetS23_space.sf <- st_as_sf(HayNetS23_tibble.df, coords = c("lonDD", "latDD"))
-HayNetS23_space.sf <- st_set_crs(HayNetS23_space.df, 4326)
+HayNetS23_space.df <- st_as_sf(HayNetS23_tibble.df, coords = c("lonDD", "latDD"))
+HayNetS23_space.df <- st_set_crs(HayNetS23_space.df, 4326)
 
 
 # Select the 'geometry' column from 'th' and set Z and M values
@@ -62,8 +62,8 @@ lines <- lapply(1:nrow(connections_df),
 
 HayS23_plot <- ggplot() +
   geom_sf(data = Hay_selected , color="#343A40", fill="#ADB5BD") + 
-  geom_sf(data = HayNetS23_space.df, color = "black", shape=16) +
-  geom_sf(data = lines, color = "black", linetype="dashed")+
+  geom_sf(data = HayNet_space.df, aes(color = "HayNet_space", shape = "HayNet_space"), show.legend = TRUE) +
+  geom_sf(data = lines, color = "black", linetype="solid")+
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
@@ -71,10 +71,19 @@ HayS23_plot <- ggplot() +
         axis.ticks.x = element_blank(),
         axis.ticks.y = element_blank(),
         legend.key = element_rect(fill = "transparent"), 
-        plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm"),
+        plot.margin = unit(c(1,1,1,1), "cm"),
         legend.text = element_text(size=8), 
         legend.position = c(0.05, .95), 
-        legend.justification = c("right", "bottom"))
+        legend.justification = c("right", "bottom"))+
+  scale_color_manual(name = "Legend", 
+                     values = c ("black"),
+                     labels = c("Nets")) +
+  scale_fill_manual(name = "Legend", 
+                    values = c( "black" ),
+                    labels = c("Nets")) +
+  scale_shape_manual(name = "Legend", 
+                     values = c(16),
+                     labels = c("Nets"))
 
 
 # Add scale and North arrow
