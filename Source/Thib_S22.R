@@ -40,14 +40,39 @@ ThibaultNet_space.df <- st_as_sf(ThibaultNet_tibble.df, coords = c("lonDD", "lat
 ThibaultNet_space.df <- st_set_crs(ThibaultNet_space.df, 4326)
 
 
+##########
+#lines
+###########
+connections_df <- data.frame(
+  from = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),  # Index of the starting points in sf_object
+  to = c(11, 12, 13, 14, 15, 16, 17, 18, 19, 20)     # Index of the ending points in sf_object
+  
+)
+
+
+line <- st_sfc(st_linestring(st_coordinates(ThibaultNet_space.df)),
+               crs = st_crs(ThibaultNet_space.df))
+
+allCoords <- as.matrix(st_coordinates(ThibaultNet_space.df))
+lines <- lapply(1:nrow(connections_df),
+                function(r){
+                  rbind(allCoords[connections_df[r,1], ],
+                        allCoords[connections_df[r,2], ])
+                }) %>%
+  st_multilinestring(.) %>%
+  st_sfc(., crs = st_crs(ThibaultNet_space.df))
+
+
+
 ######
 #Plot
 ######
 
 
-thib_plot <- ggplot() +
+thibS22_plot <- ggplot() +
   geom_sf(data = Thib_selected, color="#343A40", fill="#ADB5BD") + 
-  geom_sf(data = ThibaultNet_space.df, aes(color = "ThibaultNet_space", shape = "ThibaultNet_space"), show.legend = TRUE) +
+  geom_sf(data = ThibaultNet_space.df, aes(color = "ThibaultNet_space", shape = "ThibaultNet_space"), show.legend = FALSE) +
+  geom_sf(data = lines, color = "black", linetype="dashed") +
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
@@ -72,7 +97,7 @@ thib_plot <- ggplot() +
                      values = c(16),
                      labels = c("Nets"))# Add scale and North arrow
 
-thib_plot <- thib_plot+
+thibS22_plot <- thibS22_plot+
   ggspatial::annotation_scale(
     location = "br",
     bar_cols = c("grey60", "white"),
@@ -88,8 +113,8 @@ thib_plot <- thib_plot+
     )
   )
 
-print(thib_plot)
-
+print(thibS22_plot)
+ggsave("thibS22.png", plot =thibS22_plot, width = 7, height = 5, units = "in", dpi = 300)
 
 
 
