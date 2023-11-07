@@ -51,8 +51,7 @@ connections_df <- data.frame(
   
 )
 
-
-line <- st_sfc(st_linestring(st_coordinates(cascNet_space.df)),
+line <- st_sfc(st_linestring(st_coordinates(PaulNet_space.df)),
                crs = st_crs(PaulNet_space.df))
 #Paul map
 #########
