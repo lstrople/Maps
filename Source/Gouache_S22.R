@@ -67,8 +67,8 @@ lines <- lapply(1:nrow(connections_df),
 
 gouacheS22_plot <- ggplot() +
   geom_sf(data = gouche_selected, color="#343A40", fill="#ADB5BD") +
-  geom_sf(data = gouchetrapS22_space.df, aes(color = "gouchetrapS22_space", shape = "gouchetrapS22_space"), show.legend = TRUE) +
-  geom_sf(data = gouchNet_space.df, aes(color = "gouchNet_space", shape = "gouchNet_space"), show.legend = TRUE) +
+  geom_sf(data = gouchetrapS22_space.df, aes(color = "gouchetrapS22_space", shape = "gouchetrapS22_space"), show.legend = FALSE) +
+  geom_sf(data = gouchNet_space.df, aes(color = "gouchNet_space", shape = "gouchNet_space"), show.legend = FALSE) +
   geom_sf(data = lines, color = "black", linetype="dashed") +
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
@@ -93,15 +93,10 @@ gouacheS22_plot <- gouacheS22_plot+
     location = "br",
     bar_cols = c("grey60", "white"),
     text_family = "ArcherPro Book"
-  ) +
-  ggspatial::annotation_north_arrow(
-    location = "tl", which_north = "true",
-    pad_x = unit(0.4, "in"), pad_y = unit(0.4, "in"),
-    style = ggspatial::north_arrow_fancy_orienteering(
-      fill = c("grey40", "white"),
-      line_col = "grey20",
-      text_family = "ArcherPro Book"
-    )
   )
 
 print(gouacheS22_plot)
+
+ggsave("gouacheS22new.png", plot =gouacheS22_plot, width = 7, height = 5, units = "in", dpi = 300)
+
+
