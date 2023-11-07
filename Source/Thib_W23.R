@@ -30,8 +30,6 @@ ThibaultTU.df <- subset(ThibaultW23.df, type=="TU")
 ThibaultTrap.df <- subset(ThibaultW23.df, type=="trap")
 
 
-
-
 ###########
 #convert TU
 ###########
@@ -62,13 +60,14 @@ ThibaultNet_tibble.df <- dplyr::filter(ThibaultNet_tibble.df, !is.na(lonDD) & !i
 ThibaultNet_space.df <- st_as_sf(ThibaultNet_tibble.df, coords = c("lonDD", "latDD"))
 ThibaultNet_space.df <- st_set_crs(ThibaultNet_space.df, 4326)
 
+
 ######
 #Plot
 ######
 
 
-thib_plot <- ggplot() +
-  geom_sf(data = th_selected, color="#343A40", fill="#ADB5BD") + 
+thibW23_plot <- ggplot() +
+  geom_sf(data = Thib_selected, color="#343A40", fill="#ADB5BD") + 
   geom_sf(data = ThibaultTU_space.df, aes(color = "ThibaultTU_space", shape = "ThibaultTU_space"), show.legend = TRUE) +
   geom_sf(data = ThibaultTrap_space.df, aes(color = "ThibaultTrap_space", shape = "ThibaultTrap_space"), show.legend = TRUE) +
   theme(panel.grid = element_blank(),
@@ -95,7 +94,7 @@ thib_plot <- ggplot() +
                      values = c(15, 17),
                      labels = c("Traps","Tip-Ups"))# Add scale and North arrow
 
-thib_plot <- thib_plot+
+thibW23_plot <- thibW23_plot+
   ggspatial::annotation_scale(
     location = "br",
     bar_cols = c("grey60", "white"),
@@ -111,9 +110,9 @@ thib_plot <- thib_plot+
     )
   )
 
-print(thib_plot)
+print(thibW23_plot)
 
-
+ggsave("thibW23.png", plot =thibW23_plot, width = 7, height = 5, units = "in", dpi = 300)
 
 
 #+ xlim(c(min(lon1, lon2), max(lon1, lon2))
