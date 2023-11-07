@@ -58,18 +58,15 @@ lines <- lapply(1:nrow(connections_df),
   st_multilinestring(.) %>%
   st_sfc(., crs = st_crs(coteNet_space.df))
 
-coteS22_plot <- ggplot() +
+coteS23_plot <- ggplot() +
   geom_sf(data = cote_selected, color="#343A40", fill="#ADB5BD") +
-  geom_sf(data = coteNet_space.df, aes(color = "coteNet_space", shape = "coteNet_space"), show.legend = FALSE) +
-  geom_sf(data = lines, color = "black", linetype="dashed") +
+  geom_sf(data = coteNet_space.df, aes(color = "coteNet_space", shape = "coteNet_space"), show.legend = TRUE) +
+  geom_sf(data = lines, color = "black", linetype="solid") +
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
         panel.background = element_rect(fill = "transparent", color = NA), 
         axis.ticks.x = element_blank(),
-        #panel.border = element_rect(color = "black", 
-        #fill = NA, 
-        #linewidth = 2),
         axis.ticks.y = element_blank(), 
         legend.key = element_rect(fill = "transparent"), 
         plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm"))+
@@ -83,7 +80,7 @@ coteS22_plot <- ggplot() +
                      values = c(16, 17),
                      labels = c("Nets","Tip-Ups"))
 
-coteS22_plot <- coteS22_plot+
+coteS23_plot <- coteS23_plot+
   ggspatial::annotation_scale(
     location = "bl",
     bar_cols = c("grey60", "white"),
@@ -99,10 +96,10 @@ coteS22_plot <- coteS22_plot+
     )
   )
 
-print(coteS22_plot)
+print(coteS23_plot)
 
 
-ggsave("CoteS22.png", plot = coteS22_plot, width = 7, height = 5, units = "in", dpi = 300)
+ggsave("CoteS23new.png", plot = coteS23_plot, width = 7, height = 5, units = "in", dpi = 300)
 
 
 
