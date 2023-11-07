@@ -53,8 +53,8 @@ HaytrapS22_space.df <- st_set_crs(HaytrapS22_space.df, 4326)
 
 
 connections_df <- data.frame(
-  from = c(1, 4, 5, 6, 7),  # Index of the starting points in sf_object
-  to = c(2, 8, 9, 10, 11)     # Index of the ending points in sf_object
+  from = c(1, 3, 4, 5, 6, 7),  # Index of the starting points in sf_object
+  to = c(2, 8, 9, 10, 11, 12)     # Index of the ending points in sf_object
   
 )
 
@@ -69,7 +69,7 @@ lines <- lapply(1:nrow(connections_df),
                               allCoords[connections_df[r,2], ])
                       }) %>%
   st_multilinestring(.) %>%
-  st_sfc(., crs = st_crs(HayNetS23_space.sf))
+  st_sfc(., crs = st_crs(HayNetS22_space.df))
 
 plot(lines)
 
@@ -78,7 +78,7 @@ HayS22_plot <- ggplot() +
   geom_sf(data = Hay_selected , color="#343A40", fill="#ADB5BD") + 
   geom_sf(data = HayNetS22_space.df, aes(color = "HayNetS22_space", shape = "HayNetS22_space"), show.legend = TRUE) +
   geom_sf(data = HaytrapS22_space.df, aes(color = "HayTrapS22_space", shape = "HayTrapS22_space"), show.legend = TRUE) +
-  geom_sf(data = lines, color = "black", linetype="dashed")+
+  geom_sf(data = lines, color = "black", linetype="solid")+
   #geom_segment(data = hayseg aes(x = hayseg, xend = lon2, y = lat, yend = lat2))
   #geom_path(data = ThibaultNet_space.df, aes(x = your_x_column, y = your_y_column, group = group_column), color = "blue") +  # Replace your_x_column, your_y_column, and group_column with appropriate column names
   theme(panel.grid = element_blank(),
