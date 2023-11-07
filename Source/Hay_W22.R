@@ -63,7 +63,7 @@ lines <- lapply(1:nrow(connections_df),
 HayW22_plot <- ggplot() +
   geom_sf(data = Hay_selected , color="#343A40", fill="#ADB5BD") + 
   geom_sf(data = HayNet_space.df, color = "black", shape=16) +
-  geom_sf(data = lines, color = "black", linetype="dashed")+
+  geom_sf(data = lines, color = "black", linetype="solid")+
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
@@ -88,6 +88,6 @@ HayW22_plot <- HayW22_plot+
 
 print(HayW22_plot)
 
-ggsave("HayW22.png", plot = HayS23_plot, width = 7, height = 5, units = "in", dpi = 300)
+ggsave("HayW22new.png", plot = HayS23_plot, width = 7, height = 5, units = "in", dpi = 300)
 
 
