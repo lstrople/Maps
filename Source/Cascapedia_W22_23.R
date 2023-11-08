@@ -94,7 +94,9 @@ cascW_plot <- ggplot() +
         panel.background = element_rect(fill = "transparent", color = NA), 
         axis.ticks.x = element_blank(),
         axis.ticks.y = element_blank(),
-        legend.key = element_rect(fill = "transparent"), 
+        legend.key = element_rect(fill = "transparent"),
+        legend.position = c(0.05, 0.95),  # Adjust these values as needed
+        legend.justification = c(0, 1),
         plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm")) +
   scale_color_manual(name = "Legend", 
                      values = c ("black","#ADB5BD","#495057"),
@@ -104,9 +106,7 @@ cascW_plot <- ggplot() +
                     labels = c("Nets","Traps","Tip-Ups")) +
   scale_shape_manual(name = "Legend", 
                      values = c(16,15, 17),
-                     labels = c("Nets","Traps","Tip-Ups"))
-
-# Add scale and North arrow
+                     labels = c("Nets","Traps","Tip-Ups"))# Add scale and North arrow
 cascW_plot <- cascW_plot+
   ggspatial::annotation_scale(
     location = "br",
@@ -114,7 +114,7 @@ cascW_plot <- cascW_plot+
     text_family = "ArcherPro Book"
   ) +
   ggspatial::annotation_north_arrow(
-    location = "tl", which_north = "true",
+    location = "br", which_north = "true",
     pad_x = unit(0.4, "in"), pad_y = unit(0.4, "in"),
     style = ggspatial::north_arrow_fancy_orienteering(
       fill = c("grey40", "white"),
