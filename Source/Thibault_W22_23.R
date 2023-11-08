@@ -24,7 +24,7 @@ Thib_selected <- dplyr::select(thibSpace, geometry) %>% st_zm()
 #Thibault
 #########
 
-Thibault.df <- subset(gaspe.df, lake=="Thibault")
+Thibault.df <- subset(winter.df, lake=="Thibault")
 ThibaultTU.df <- subset(Thibault.df, type=="TU")
 ThibaultTrap.df <- subset(Thibault.df, type=="trap")
 ThibaultNet.df <- subset(Thibault.df, type=="NET")
@@ -61,16 +61,42 @@ ThibaultNet_tibble.df <- dplyr::filter(ThibaultNet_tibble.df, !is.na(lonDD) & !i
 ThibaultNet_space.df <- st_as_sf(ThibaultNet_tibble.df, coords = c("lonDD", "latDD"))
 ThibaultNet_space.df <- st_set_crs(ThibaultNet_space.df, 4326)
 
+
+
+connections_df <- data.frame(
+  from = c(1, 2, 3, 4, 5, 6, 7),  # Index of the starting points in sf_object
+  to = c(8, 9, 10, 11, 12, 13, 14)     # Index of the ending points in sf_object
+  
+)
+
+
+line <- st_sfc(st_linestring(st_coordinates(ThibaultNet_space.df)),
+               crs = st_crs(ThibaultNet_space.df))
+
+allCoords <- as.matrix(st_coordinates(ThibaultNet_space.df))
+lines <- lapply(1:nrow(connections_df),
+                function(r){
+                  rbind(allCoords[connections_df[r,1], ],
+                        allCoords[connections_df[r,2], ])
+                }) %>%
+  st_multilinestring(.) %>%
+  st_sfc(., crs = st_crs(ThibaultNet_space.df))
+
+
+
+
+
 ######
 #Plot
 ######
 
 
-thib_plot <- ggplot() +
-  geom_sf(data = th_selected, color="#343A40", fill="#ADB5BD") + 
+thibW_plot <- ggplot() +
+  geom_sf(data = Thib_selected, color="#343A40", fill="#DEE2E6") + 
   geom_sf(data = ThibaultTU_space.df, aes(color = "ThibaultTU_space", shape = "ThibaultTU_space"), show.legend = TRUE) +
   geom_sf(data = ThibaultTrap_space.df, aes(color = "ThibaultTrap_space", shape = "ThibaultTrap_space"), show.legend = TRUE) +
   geom_sf(data = ThibaultNet_space.df, aes(color = "ThibaultNet_space", shape = "ThibaultNet_space"), show.legend = TRUE) +
+  geom_sf(data = lines, color = "black", linetype="solid") +
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
@@ -82,19 +108,17 @@ thib_plot <- ggplot() +
                                     #linewidth = 2),
         legend.key = element_rect(fill = "transparent"), 
         plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm"))+
-  #legend.text = element_text(size=8), 
-  #legend.position = c(0.05, .95), 
-  #legend.justification = c("right", "bottom"))
+
   scale_color_manual(name = "Legend", 
-                     values = c ("black","#6C757D","#212529"),
+                     values = c ("black","#ADB5BD","#495057"),
                      labels = c("Nets","Traps","Tip-Ups")) +
   scale_fill_manual(name = "Legend", 
-                    values = c( "black","#6C757D","#212529" ),
+                    values = c( "black","#ADB5BD","#495057" ),
                     labels = c("Nets","Traps","Tip-Ups")) +
   scale_shape_manual(name = "Legend", 
                      values = c(16,15, 17),
                      labels = c("Nets","Traps","Tip-Ups"))# Add scale and North arrow
-thib_plot <- thib_plot+
+thibW_plot <- thibW_plot+
   ggspatial::annotation_scale(
     location = "br",
     bar_cols = c("grey60", "white"),
@@ -110,11 +134,6 @@ thib_plot <- thib_plot+
     )
   )
 
-print(thib_plot)
+print(thibW_plot)
 
-
-
-
-#+ xlim(c(min(lon1, lon2), max(lon1, lon2))
-       #+ ylim(c(min(lat1, lat2), max(lat1, lat2))
-              
+ggsave("ThibW.png", plot =thibW_plot, width = 7, height = 5, units = "in", dpi = 300)
