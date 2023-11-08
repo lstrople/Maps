@@ -71,19 +71,16 @@ HayW22_plot <- ggplot() +
         axis.ticks.x = element_blank(),
         axis.ticks.y = element_blank(),
         legend.key = element_rect(fill = "transparent"), 
-        plot.margin = unit(c(1,1,1,1), "cm"),
-        legend.text = element_text(size=8), 
-        legend.position = c(0.05, .95), 
-        legend.justification = c("right", "bottom"))+
-          scale_color_manual(name = "Legend", 
-                             values = c ("black"),
-                             labels = c("Nets")) +
-          scale_fill_manual(name = "Legend", 
-                            values = c( "black" ),
-                            labels = c("Nets")) +
-          scale_shape_manual(name = "Legend", 
-                             values = c(16),
-                             labels = c("Nets"))
+        plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm")) +
+  scale_color_manual(name = "Legend", 
+                     values = c ("black"),
+                     labels = c("Nets")) +
+  scale_fill_manual(name = "Legend", 
+                    values = c( "black"),
+                    labels = c("Nets")) +
+  scale_shape_manual(name = "Legend", 
+                     values = c(16),
+                     labels = c("Nets","Traps"))
 
 
 # Add scale and North arrow
