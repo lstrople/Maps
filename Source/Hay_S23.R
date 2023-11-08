@@ -48,21 +48,21 @@ Hay_selected <- dplyr::select(HaySpace, geometry) %>% st_zm()
   )
 
 
-line <- st_sfc(st_linestring(st_coordinates(HayNetS23_space.sf)),
-               crs = st_crs(HayNetS23_space.sf))
+line <- st_sfc(st_linestring(st_coordinates(HayNetS23_space.df)),
+               crs = st_crs(HayNetS23_space.df))
 
-allCoords <- as.matrix(st_coordinates(HayNetS23_space.sf))
+allCoords <- as.matrix(st_coordinates(HayNetS23_space.df))
 lines <- lapply(1:nrow(connections_df),
        function(r){
          rbind(allCoords[connections_df[r,1], ],
                allCoords[connections_df[r,2], ])
        }) %>%
   st_multilinestring(.) %>%
-  st_sfc(., crs = st_crs(HayNetS23_space.sf))
+  st_sfc(., crs = st_crs(HayNetS23_space.df))
 
 HayS23_plot <- ggplot() +
   geom_sf(data = Hay_selected , color="#343A40", fill="#ADB5BD") + 
-  geom_sf(data = HayNet_space.df, aes(color = "HayNet_space", shape = "HayNet_space"), show.legend = TRUE) +
+  geom_sf(data = HayNetS23_space.df, aes(color = "HayNet_space", shape = "HayNet_space"), show.legend = TRUE) +
   geom_sf(data = lines, color = "black", linetype="solid")+
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
@@ -71,19 +71,16 @@ HayS23_plot <- ggplot() +
         axis.ticks.x = element_blank(),
         axis.ticks.y = element_blank(),
         legend.key = element_rect(fill = "transparent"), 
-        plot.margin = unit(c(1,1,1,1), "cm"),
-        legend.text = element_text(size=8), 
-        legend.position = c(0.05, .95), 
-        legend.justification = c("right", "bottom"))+
+        plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm")) +
   scale_color_manual(name = "Legend", 
                      values = c ("black"),
                      labels = c("Nets")) +
   scale_fill_manual(name = "Legend", 
-                    values = c( "black" ),
+                    values = c( "black"),
                     labels = c("Nets")) +
   scale_shape_manual(name = "Legend", 
                      values = c(16),
-                     labels = c("Nets"))
+                     labels = c("Nets","Traps"))
 
 
 # Add scale and North arrow
