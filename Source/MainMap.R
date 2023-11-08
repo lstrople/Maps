@@ -74,10 +74,13 @@ setwd("C:/Users/lstrople/OneDrive - Norwegian University of Life Sciences/Winter
 
 gaspe.df <- read.csv("C:/Users/lstrople/OneDrive - Norwegian University of Life Sciences/Winter_paper/equipment_locations.csv")
 
+winter.df <- read.csv("C:/Users/lstrople/OneDrive - Norwegian University of Life Sciences/Winter_paper/Equipment_winterpaper.csv")
 
 # Apply the function to the lat column using lapply
 gaspe.df$latDD <- lapply(gaspe.df$lat_A, LATDMtoDDcoorindate)
 
 gaspe.df$lonDD <- lapply(gaspe.df$long_A, LOTDMtoDDcoorindate)
 
+winter.df$latDD <- lapply(winter.df$lat_A, LATDMtoDDcoorindate)
 
+winter.df$lonDD <- lapply(winter.df$long_A, LOTDMtoDDcoorindate)
