@@ -76,7 +76,7 @@ cascW22_plot <- ggplot() +
   geom_sf(data = casc_selected, color="#343A40", fill="#ADB5BD") + 
   geom_sf(data = cascNet_space.df, aes(color = "cascNet_space", shape = "cascNet_space"), show.legend = TRUE) +
   geom_sf(data = cascTU_space.df, aes(color = "cascTU_space", shape = "cascTU_space"), show.legend = TRUE) +
-  geom_sf(data = lines, color = "black", linetype="dashed") +
+  geom_sf(data = lines, color = "black", linetype="solid") +
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
@@ -118,5 +118,5 @@ cascW22_plot <- cascW22_plot+
 
 print(cascW22_plot)
 
-ggsave("CascS23.png", plot =cascS23_plot, width = 7, height = 5, units = "in", dpi = 300)
+ggsave("CascW22.png", plot =cascW22_plot, width = 7, height = 5, units = "in", dpi = 300)
 
