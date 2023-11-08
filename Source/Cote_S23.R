@@ -71,14 +71,14 @@ coteS23_plot <- ggplot() +
         legend.key = element_rect(fill = "transparent"), 
         plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm"))+
   scale_color_manual(name = "Legend", 
-                     values = c ("#212529","#6C757D"),
-                     labels = c("Nets","Tip-Ups")) +
+                     values = c ("black"),
+                     labels = c("Nets")) +
   scale_fill_manual(name = "Legend", 
-                    values = c( "#212529","#6C757D"),
-                    labels = c("Nets","Tip-Ups")) +
+                    values = c("black"),
+                    labels = c("Nets")) +
   scale_shape_manual(name = "Legend", 
-                     values = c(16, 17),
-                     labels = c("Nets","Tip-Ups"))
+                     values = c(16),
+                     labels = c("Nets"))
 
 coteS23_plot <- coteS23_plot+
   ggspatial::annotation_scale(

@@ -89,9 +89,6 @@ HayS22_plot <- ggplot() +
         axis.ticks.y = element_blank(),
         legend.key = element_rect(fill = "transparent"), 
         plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm")) +
-  #legend.text = element_text(size=8), 
-  #legend.position = c(0.05, .95), 
-  #legend.justification = c("right", "bottom"))
   scale_color_manual(name = "Legend", 
                      values = c ("#212529","#6C757D"),
                      labels = c("Nets","Traps")) +
