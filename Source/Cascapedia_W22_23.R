@@ -54,6 +54,7 @@ cascTrap_tibble.df <- dplyr::filter(cascTrap_tibble.df, !is.na(lonDD) & !is.na(l
 cascTrap_space.df <- st_as_sf(cascTrap_tibble.df, coords = c("lonDD", "latDD"))
 cascTrap_space.df <- st_set_crs(cascTrap_space.df, 4326)
 
+
 #######
 #Lines
 ######
