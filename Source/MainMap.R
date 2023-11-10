@@ -78,6 +78,8 @@ winter.df <- read.csv("C:/Users/lstrople/OneDrive - Norwegian University of Life
 
 cascmini.df <- read.csv("C:/Users/lstrople/OneDrive - Norwegian University of Life Sciences/Winter_paper/Casc_winter.csv")
 
+canlakes.df <- read.csv("C:/Users/lstrople/OneDrive - Norwegian University of Life Sciences/Winter_paper/Levi_lakes.csv")
+
 # Apply the function to the lat column using lapply
 gaspe.df$latDD <- lapply(gaspe.df$lat_A, LATDMtoDDcoorindate)
 
