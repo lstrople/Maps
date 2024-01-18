@@ -1,3 +1,7 @@
+#########################
+#LOAD MAIN MAP CODE FIRST
+########################
+
 ######
 #casc
 ######
@@ -85,9 +89,9 @@ casc_selected <- dplyr::select(cascSpace, geometry) %>% st_zm()
 
 cascW_plot <- ggplot() +
   geom_sf(data = casc_selected, color="#343A40", fill="#DEE2E6") + 
-  geom_sf(data = cascTrap_space.df, aes(color = "cascTrap_space", shape = "cascTrap_space"), show.legend = TRUE) +
-  geom_sf(data = cascTU_space.df, aes(color = "cascTU_space", shape = "cascTU_space"), show.legend = TRUE) +
-  geom_sf(data = cascNet_space.df, aes(color = "cascNet_space", shape = "cascNet_space"), show.legend = TRUE) +
+  geom_sf(data = cascTrap_space.df, aes(color = "cascTrap_space", fill = "cascTrap_space", shape = "cascTrap_space"), show.legend = TRUE) +
+  geom_sf(data = cascTU_space.df, aes(color = "cascTU_space", fill= "cascTU_space", shape = "cascTU_space"), show.legend = TRUE) +
+  geom_sf(data = cascNet_space.df, aes(color = "cascNet_space",fill= "cascNet_space", shape = "cascNet_space"), show.legend = TRUE) +
   geom_sf(data = lines, color = "black", linetype="solid") +
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
@@ -100,13 +104,13 @@ cascW_plot <- ggplot() +
         legend.justification = c(0, 1),
         plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm")) +
   scale_color_manual(name = "Legend", 
-                     values = c ("black","#ADB5BD","#495057"),
+                     values = c ("black","black","black"),
                      labels = c("Nets","Traps","Tip-Ups")) +
   scale_fill_manual(name = "Legend", 
-                    values = c( "black","#ADB5BD","#495057" ),
+                    values = c( "black","#f8f9fa","#ADB5BD"),
                     labels = c("Nets","Traps","Tip-Ups")) +
   scale_shape_manual(name = "Legend", 
-                     values = c(16,15, 17),
+                     values = c(21, 22, 24),
                      labels = c("Nets","Traps","Tip-Ups"))# Add scale and North arrow
 cascW_plot <- cascW_plot+
   ggspatial::annotation_scale(

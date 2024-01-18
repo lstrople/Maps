@@ -13,7 +13,7 @@ coteSpace <- coteSpace %>%
 
 urm <- 32620
 
-paul_selected <- dplyr::select(coteSpace, geometry) %>% st_zm()
+cote_selected <- dplyr::select(coteSpace, geometry) %>% st_zm()
 
 
 ##########
@@ -80,9 +80,9 @@ cote_selected <- dplyr::select(coteSpace, geometry) %>% st_zm()
 
 coteW_plot <- ggplot() +
   geom_sf(data = cote_selected, color="#343A40", fill="#DEE2E6") +
-  geom_sf(data =  coteTU_space.df, aes(color = "coteTU_space", shape = "coteTU_space"), show.legend = TRUE) +
-  geom_sf(data = coteTrap_space.df, aes(color = "coteTrap_space", shape = "coteTrap_space"), show.legend =TRUE) +
-  geom_sf(data = coteNet_space.df, aes(color = "coteNet_space", shape = "coteNet_space"), show.legend = TRUE) +
+  geom_sf(data =  coteTU_space.df, aes(color = "coteTU_space", fill = "coteTU_space", shape = "coteTU_space"), show.legend = TRUE) +
+  geom_sf(data = coteTrap_space.df, aes(color = "coteTrap_space", fill = "coteTrap_space", shape = "coteTrap_space"), show.legend =TRUE) +
+  geom_sf(data = coteNet_space.df, aes(color = "coteNet_space", fill = "coteNet_space",  shape = "coteNet_space"), show.legend = TRUE) +
   geom_sf(data = lines, color = "black", linetype="solid") +
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
@@ -96,13 +96,13 @@ coteW_plot <- ggplot() +
         legend.key = element_rect(fill = "transparent"), 
         plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm"))+
   scale_color_manual(name = "Legend", 
-                     values = c ("black","#ADB5BD","#495057"),
+                     values = c ("black","black","black"),
                      labels = c("Nets","Traps","Tip-Ups")) +
   scale_fill_manual(name = "Legend", 
-                    values = c( "black","#ADB5BD","#495057" ),
+                    values = c( "black","#f8f9fa","#ADB5BD"),
                     labels = c("Nets","Traps","Tip-Ups")) +
   scale_shape_manual(name = "Legend", 
-                     values = c(16,15, 17),
+                     values = c(21, 22, 24),
                      labels = c("Nets","Traps","Tip-Ups"))
 
 coteW_plot <- coteW_plot+
