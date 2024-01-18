@@ -15,7 +15,7 @@ urm <- 32620
 paul_selected <- dplyr::select(paulSpace, geometry) %>% st_zm()
 
 
-Paul.df <- subset(gaspe.df, lake=="Paul")
+Paul.df <- subset(winter.df, lake=="Paul")
 PaulTU.df <- subset(Paul.df, type=="TU")
 PaulTrap.df <- subset(Paul.df, type=="trap")
 PaulNet.df <- subset(Paul.df, type=="NET")
@@ -52,30 +52,26 @@ PaulNet_space.df <- st_set_crs(PaulNet_space.df, 4326)
 paul_selected <- dplyr::select(paulSpace, geometry) %>% st_zm()
 
 paul_plot <- ggplot() +
-  geom_sf(data = paul_selected, color="#343A40", fill="#ADB5BD") +
-  geom_sf(data = PaulNet_space.df, aes(color = "PaulNet_space", shape = "PaulNet_space"), show.legend = FALSE) +
-  geom_sf(data = PaulTU_space.df, aes(color = "PaulTU_space", shape = "PaulTU_space"), show.legend = FALSE) +
+  geom_sf(data = paul_selected, color="#343A40", fill="#DEE2E6") +
+  geom_sf(data = PaulNet_space.df, aes(color = "PaulNet_space", fill = "PaulNet_space", shape = "PaulNet_space"), show.legend = FALSE) +
+  geom_sf(data = PaulTU_space.df, aes(color = "PaulTU_space", fill = "PaulTU_space", shape = "PaulTU_space"), show.legend = FALSE) +
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
         panel.background = element_rect(fill = "transparent", color = NA), 
         axis.ticks.x = element_blank(),
-        axis.ticks.y = element_blank(), 
+        axis.ticks.y = element_blank(),
         legend.key = element_rect(fill = "transparent"), 
         plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm")) +
-  #legend.text = element_text(size=8), 
-  #legend.position = c(0.05, .95), 
-  #legend.justification = c("right", "bottom")
   scale_color_manual(name = "Legend", 
-                     values = c ("#6C757D","#212529"),
-                     labels = c("Nets", "Tip-Ups")) +
+                     values = c ("black","black"),
+                     labels = c("Nets","Traps","Tip-Ups")) +
   scale_fill_manual(name = "Legend", 
-                    values = c( "#6C757D","#212529"),
-                    labels = c("Nets", "Tip-Ups")) +
+                    values = c( "black","#ADB5BD"),
+                    labels = c("Nets","Traps","Tip-Ups")) +
   scale_shape_manual(name = "Legend", 
-                     values = c(16, 17),
-                     labels = c("Nets", "Tip-Ups"))
-
+                     values = c(21, 24),
+                     labels = c("Nets","Traps","Tip-Ups")) 
 
 # Add scale and North arrow
 
@@ -96,4 +92,7 @@ paul_plot <- paul_plot+
   )
 
 print(paul_plot)
+
+ggsave("paul_plot.png", plot =paul_plot, width = 7, height = 5, units = "in", dpi = 300)
+
 

@@ -57,9 +57,9 @@ portageANG_space.df <- st_set_crs(portageANG_space.df, 4326)
 
 portage_plot <- ggplot() +
   geom_sf(data = portage_selected, color="#343A40", fill="#DEE2E6") + 
-  geom_sf(data = portageHGN_space.df, aes(color = "portageHGN_space", shape = "portageHGN_space"), show.legend = TRUE) +
-  geom_sf(data = portageMT_space.df, aes(color = "portageMT_space", shape = "portageMT_space"), show.legend = TRUE) +
-  geom_sf(data = portageANG_space.df, aes(color = "portageANG_space", shape = "portageANG_space"), show.legend = TRUE) +
+  geom_sf(data = portageMT_space.df, aes(color = "portageMT_space", fill = "portageMT_space", shape = "portageMT_space"), show.legend = TRUE) +
+  geom_sf(data = portageANG_space.df, aes(color = "portageANG_space", fill = "portageANG_space", shape = "portageANG_space"), show.legend = TRUE) +
+  geom_sf(data = portageHGN_space.df, aes(color = "portageHGN_space", fill = "portageHGN_space",  shape = "portageHGN_space"), show.legend = TRUE) +
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
@@ -69,14 +69,14 @@ portage_plot <- ggplot() +
         legend.key = element_rect(fill = "transparent"),
         plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm")) +
   scale_color_manual(name = "Legend", 
-                     values = c ("#495057","black","#ADB5BD"),
-                     labels = c("Angling","Nets","Traps")) +
+                     values = c ("black","black","black"),
+                     labels = c("Nets","Traps","Tip-Ups")) +
   scale_fill_manual(name = "Legend", 
-                    values = c("#495057","black","#ADB5BD"),
-                    labels = c("Angling","Nets","Traps")) +
+                    values = c( "black","#f8f9fa","#ADB5BD"),
+                    labels = c("Nets","Traps","Tip-Ups")) +
   scale_shape_manual(name = "Legend", 
-                     values = c(17,16, 15),
-                     labels = c("Angling","Nets","Traps"))# Add scale and North arrow
+                     values = c(21, 22, 24),
+                     labels = c("Nets","Traps","Tip-Ups"))# Add scale and North arrow
 portage_plot <- portage_plot+
   ggspatial::annotation_scale(
     location = "bl",
