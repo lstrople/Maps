@@ -1,3 +1,19 @@
+#########
+#cascmini
+##########
+cascSpace <- st_read("Casc_top.KML") %>%
+  st_transform(32620)
+
+cascTSpace <- cascSpace %>%
+  slice(1) %>%
+  st_difference(cascSpace %>% slice(2)) %>%
+  st_difference(cascSpace %>% slice(3)) %>%
+  st_difference(cascSpace %>% slice(4))
+
+urm <- 32620
+
+cascT_selected <- dplyr::select(cascSpace, geometry) %>% st_zm()
+
 
 ##########
 #cascplot
@@ -65,9 +81,9 @@ lines <- lapply(1:nrow(connections_df),
 # Create the zoomed-in plot
 zoomed_cascW_plot <- ggplot() +
   geom_sf(data = cascT_selected, color = "#343A40", fill = "#DEE2E6") +
-  geom_sf(data = cascTrap_space.df, aes(color = "cascTrap_space", shape = "cascTrap_space"), show.legend = FALSE) +
-  geom_sf(data = cascTU_space.df, aes(color = "cascTU_space", shape = "cascTU_space"), show.legend = FALSE) +
-  geom_sf(data = cascNet_space.df, aes(color = "cascNet_space", shape = "cascNet_space"), show.legend = FALSE) +
+  geom_sf(data = cascTrap_space.df, aes(color = "cascTrap_space", fill = "cascTrap_space", shape = "cascTrap_space"), show.legend = FALSE) +
+  geom_sf(data = cascTU_space.df, aes(color = "cascTU_space", fill = "cascTU_space", shape = "cascTU_space"), show.legend = FALSE) +
+  geom_sf(data = cascNet_space.df, aes(color = "cascNet_space", fill = "cascNet_space", shape = "cascNet_space"), show.legend = FALSE) +
   geom_sf(data = lines, color = "black", linetype = "solid") +
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
@@ -81,13 +97,13 @@ zoomed_cascW_plot <- ggplot() +
         legend.key = element_rect(fill = "transparent"), 
         plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm")) +
   scale_color_manual(name = "Legend", 
-                     values = c ("black","#ADB5BD","#495057"),
+                     values = c ("black","black","black"),
                      labels = c("Nets","Traps","Tip-Ups")) +
   scale_fill_manual(name = "Legend", 
-                    values = c( "black","#ADB5BD","#495057" ),
+                    values = c( "black","#f8f9fa","#ADB5BD"),
                     labels = c("Nets","Traps","Tip-Ups")) +
   scale_shape_manual(name = "Legend", 
-                     values = c(16, 15, 17),
+                     values = c(21, 22, 24),
                      labels = c("Nets","Traps","Tip-Ups"))
 
 # Set the zoomed-in extent
