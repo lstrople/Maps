@@ -58,9 +58,9 @@ plot(pikeANG_space.df)
 
 pike_plot <- ggplot() +
   geom_sf(data = pike_selected, color="#343A40", fill="#DEE2E6") + 
-  geom_sf(data = pikeHGN_space.df, aes(color = "pikeHGN_space", shape = "pikeHGN_space"), show.legend = TRUE) +
-  geom_sf(data = pikeMT_space.df, aes(color = "pikeMT_space", shape = "pikeMT_space"), show.legend = TRUE) +
-  geom_sf(data = pikeANG_space.df, aes(color = "pikeANG_space", shape = "pikeANG_space"), show.legend = TRUE) +
+  geom_sf(data = pikeHGN_space.df, aes(color = "pikeHGN_space", fill = "pikeHGN_space",  shape = "pikeHGN_space"), show.legend = TRUE) +
+  geom_sf(data = pikeANG_space.df, aes(color = "pikeANG_space", fill = "pikeANG_space", shape = "pikeANG_space"), show.legend = TRUE) +
+  geom_sf(data = pikeMT_space.df, aes(color = "pikeMT_space",fill = "pikeMT_space", shape = "pikeMT_space"), show.legend = TRUE) +
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
@@ -70,14 +70,14 @@ pike_plot <- ggplot() +
         legend.key = element_rect(fill = "transparent"),
         plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm")) +
   scale_color_manual(name = "Legend", 
-                     values = c ("#495057","black","#ADB5BD"),
-                     labels = c("Angling","Nets","Traps")) +
+                     values = c ("black","black","black"),
+                     labels = c("Nets","Traps","Tip-Ups")) +
   scale_fill_manual(name = "Legend", 
-                    values = c("#495057","black","#ADB5BD"),
-                    labels = c("Angling","Nets","Traps")) +
+                    values = c( "black","#f8f9fa","#ADB5BD"),
+                    labels = c("Nets","Traps","Tip-Ups")) +
   scale_shape_manual(name = "Legend", 
-                     values = c(17,16, 15),
-                     labels = c("Angling","Nets","Traps"))# Add scale and North arrow
+                     values = c(21, 22, 24),
+                     labels = c("Nets","Traps","Tip-Ups"))# Add scale and North arrow
 pike_plot <- pike_plot+
   ggspatial::annotation_scale(
     location = "bl",
