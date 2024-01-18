@@ -42,6 +42,26 @@ PaulNet_space.df <- st_as_sf(PaulNet_tibble.df, coords = c("lonDD", "latDD"))
 PaulNet_space.df <- st_set_crs(PaulNet_space.df, 4326)
 
 
+#lines
+connections_df <- data.frame(
+  from = c(1, 9, 10, 12),  # Index of the starting points in sf_object
+  to = c(7, 13, 11, 16)     # Index of the ending points in sf_object
+  
+)
+
+
+line <- st_sfc(st_linestring(st_coordinates(PaulNet_space.df )),
+               crs = st_crs(PaulNet_space.df))
+
+allCoords <- as.matrix(st_coordinates(PaulNet_space.df))
+lines <- lapply(1:nrow(connections_df),
+                function(r){
+                  rbind(allCoords[connections_df[r,1], ],
+                        allCoords[connections_df[r,2], ])
+                }) %>%
+  st_multilinestring(.) %>%
+  st_sfc(., crs = st_crs(PaulNet_space.df ))
+
 
 
 ##########
@@ -53,8 +73,9 @@ paul_selected <- dplyr::select(paulSpace, geometry) %>% st_zm()
 
 paul_plot <- ggplot() +
   geom_sf(data = paul_selected, color="#343A40", fill="#DEE2E6") +
-  geom_sf(data = PaulNet_space.df, aes(color = "PaulNet_space", fill = "PaulNet_space", shape = "PaulNet_space"), show.legend = FALSE) +
-  geom_sf(data = PaulTU_space.df, aes(color = "PaulTU_space", fill = "PaulTU_space", shape = "PaulTU_space"), show.legend = FALSE) +
+  geom_sf(data = PaulNet_space.df, aes(color = "PaulNet_space", fill = "PaulNet_space", shape = "PaulNet_space"), show.legend = TRUE) +
+  geom_sf(data = PaulTU_space.df, aes(color = "PaulTU_space", fill = "PaulTU_space", shape = "PaulTU_space"), show.legend = ) +
+  geom_sf(data = lines, color = "black", linetype="solid") +
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
