@@ -10,11 +10,6 @@ step2 <- step1 %>% st_difference(thibSpace %>% dplyr::slice(2))
 step3 <- step2 %>% st_difference(thibSpace %>% dplyr::slice(3))
 step4 <- step3 %>% st_difference(thibSpace %>% dplyr::slice(4))
 
-# Check validity of geometries
-valid_geometries <- st_is_valid(thibSpace$geometry)
-invalid_geometries <- which(!valid_geometries)
-print(paste("Invalid geometries at indices: ", paste(invalid_geometries, collapse = ", ")))
-
 
 urm <- 32620
 
@@ -93,31 +88,27 @@ lines <- lapply(1:nrow(connections_df),
 
 thibW_plot <- ggplot() +
   geom_sf(data = Thib_selected, color="#343A40", fill="#DEE2E6") + 
-  geom_sf(data = ThibaultTU_space.df, aes(color = "ThibaultTU_space", shape = "ThibaultTU_space"), show.legend = TRUE) +
-  geom_sf(data = ThibaultTrap_space.df, aes(color = "ThibaultTrap_space", shape = "ThibaultTrap_space"), show.legend = TRUE) +
-  geom_sf(data = ThibaultNet_space.df, aes(color = "ThibaultNet_space", shape = "ThibaultNet_space"), show.legend = TRUE) +
+  geom_sf(data = ThibaultTU_space.df, aes(color = "ThibaultTU_space", fill = "ThibaultTU_space",  shape = "ThibaultTU_space"), show.legend = TRUE) +
+  geom_sf(data = ThibaultTrap_space.df, aes(color = "ThibaultTrap_space", fill = "ThibaultTrap_space", shape = "ThibaultTrap_space"), show.legend = TRUE) +
+  geom_sf(data = ThibaultNet_space.df, aes(color = "ThibaultNet_space",fill = "ThibaultNet_space", shape = "ThibaultNet_space"), show.legend = TRUE) +
   geom_sf(data = lines, color = "black", linetype="solid") +
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
         panel.background = element_rect(fill = "transparent", color = NA, size = 2), 
         axis.ticks.x = element_blank(),
-        axis.ticks.y = element_blank(), 
-        #panel.border = element_rect(color = "black", 
-                                    #fill = NA, 
-                                    #linewidth = 2),
+        axis.ticks.y = element_blank(),
         legend.key = element_rect(fill = "transparent"), 
         plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm"))+
-
   scale_color_manual(name = "Legend", 
-                     values = c ("black","#ADB5BD","#495057"),
+                     values = c ("black","black","black"),
                      labels = c("Nets","Traps","Tip-Ups")) +
   scale_fill_manual(name = "Legend", 
-                    values = c( "black","#ADB5BD","#495057" ),
+                    values = c( "black","#f8f9fa","#ADB5BD"),
                     labels = c("Nets","Traps","Tip-Ups")) +
   scale_shape_manual(name = "Legend", 
-                     values = c(16,15, 17),
-                     labels = c("Nets","Traps","Tip-Ups"))# Add scale and North arrow
+                     values = c(21, 22, 24),
+                     labels = c("Nets","Traps","Tip-Ups"))# # Add scale and North arrow
 thibW_plot <- thibW_plot+
   ggspatial::annotation_scale(
     location = "br",
