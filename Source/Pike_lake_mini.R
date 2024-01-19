@@ -58,25 +58,28 @@ pikeANG_space.df <- st_set_crs(pikeANG_space.df, 4326)
 
 pike_plot <- ggplot() +
   geom_sf(data = pikeM_selected, color="#343A40", fill="#DEE2E6") + 
-  geom_sf(data = pikeMT_space.df, aes(color = "pikeMT_space",fill = "pikeMT_space", shape = "pikeMT_space"), show.legend = TRUE) +
-  geom_sf(data = pikeHGN_space.df, aes(color = "pikeHGN_space", fill = "pikeHGN_space",  shape = "pikeHGN_space"), show.legend = TRUE) +
-  geom_sf(data = pikeANG_space.df, aes(color = "pikeANG_space", fill = "pikeANG_space", shape = "pikeANG_space"), show.legend = TRUE) +
+  geom_sf(data = pikeMT_space.df, aes(color = "pikeMT_space",fill = "pikeMT_space", shape = "pikeMT_space"), show.legend = FALSE) +
+  geom_sf(data = pikeHGN_space.df, aes(color = "pikeHGN_space", fill = "pikeHGN_space",  shape = "pikeHGN_space"), show.legend = FALSE) +
+  geom_sf(data = pikeANG_space.df, aes(color = "pikeANG_space", fill = "pikeANG_space", shape = "pikeANG_space"), show.legend = FALSE) +
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
         panel.background = element_rect(fill = "transparent", color = NA), 
         axis.ticks.x = element_blank(),
         axis.ticks.y = element_blank(),
+        panel.border = element_rect(color = "black", 
+                                    fill = NA, 
+                                    linewidth = 2),
         legend.key = element_rect(fill = "transparent"),
         plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm")) +
-  scale_color_manual(name = "Legend", 
+scale_color_manual(name = "Legend", 
                      values = c ("black","black","black"),
                      labels = c("Angling","Tip-Ups", "Traps")) +
-  scale_fill_manual(name = "Legend", 
-                    values = c( "black","#ADB5BD","#f8f9fa"),
+scale_fill_manual(name = "Legend", 
+                    values = c("#495057","black","#f8f9fa"),
                     labels = c("Angling","Tip-Ups", "Traps")) +
   scale_shape_manual(name = "Legend", 
-                     values = c(21, 24, 22),
+                     values = c(23, 21, 22),
                      labels = c("Angling","Tip-Ups", "Traps"))# Add scale and North arrow
 pike_plot <- pike_plot+
   ggspatial::annotation_scale(
@@ -88,4 +91,4 @@ pike_plot <- pike_plot+
 
 print(pike_plot)
 
-ggsave("pike.png", plot =pike_plot, width = 7, height = 5, units = "in", dpi = 300)
+ggsave("pikemini.png", plot =pike_plot, width = 7, height = 5, units = "in", dpi = 300)
