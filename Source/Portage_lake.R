@@ -70,14 +70,13 @@ portage_plot <- ggplot() +
         plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm")) +
   scale_color_manual(name = "Legend", 
                      values = c ("black","black","black"),
-                     labels = c("Nets","Traps","Angling")) +
+                     labels = c("Tip-Ups", "Nets", "Traps")) +
   scale_fill_manual(name = "Legend", 
-                    values = c( "black","#f8f9fa","#ADB5BD"),
-                    labels = c("Nets","Traps","Angling")) +
+                    values = c("#ADB5BD","black","#f8f9fa"),
+                    labels = c("Tip-Ups", "Nets", "Traps")) +
   scale_shape_manual(name = "Legend", 
-                     values = c(21, 22, 24),
-                     labels = c("Nets","Traps","Angling"))# Add scale and North arrow
-portage_plot <- portage_plot+
+                     values = c(24, 21, 22),
+                     labels = c("Tip-Ups", "Nets", "Traps"))
   ggspatial::annotation_scale(
     location = "bl",
     bar_cols = c("grey60", "white"),
