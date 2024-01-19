@@ -19,7 +19,7 @@ pikeM_selected <- dplyr::select(pikeSpace, geometry) %>% st_zm()
 #cascplot
 ##########
 
-pike.df <- subset(canlakes.df, Lake=="Pike")
+pike.df <- subset(pikemini.df, Lake=="Pike")
 pikeHGN.df <- subset(pike.df, Gear=="HGN")
 pikeMT.df <- subset(pike.df, Gear=="MT")
 pikeANG.df <- subset(pike.df, Gear=="ANG")
@@ -83,7 +83,7 @@ pike_plot <- pike_plot+
     location = "bl",
     bar_cols = c("grey60", "white"),
     text_family = "ArcherPro Book"
-  ))
+  )
 
 
 print(pike_plot)
