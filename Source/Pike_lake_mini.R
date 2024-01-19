@@ -74,10 +74,10 @@ pike_plot <- ggplot() +
         plot.margin = unit(c(0.5,0.5,0.5,0.5), "cm")) +
 scale_color_manual(name = "Legend", 
                      values = c ("black","black","black"),
-                     labels = c("Angling","Tip-Ups", "Traps")) +
+                     labels = c("Nets","Traps","Tip-Ups")) +
 scale_fill_manual(name = "Legend", 
                     values = c("#495057","black","#f8f9fa"),
-                    labels = c("Angling","Tip-Ups", "Traps")) +
+                    labels = c("Nets","Traps","Tip-Ups")) +
   scale_shape_manual(name = "Legend", 
                      values = c(23, 21, 22),
                      labels = c("Angling","Tip-Ups", "Traps"))# Add scale and North arrow
