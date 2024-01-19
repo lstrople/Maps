@@ -75,10 +75,10 @@ portagemini_plot <- ggplot() +
                      values = c ("black","black","black"),
                      labels = c("Nets","Traps","Tip-Ups")) +
   scale_fill_manual(name = "Legend", 
-                    values = c("#495057","black","#f8f9fa"),
+                    values = c("#ADB5BD","black","#f8f9fa"),
                     labels = c("Nets","Traps","Tip-Ups")) +
   scale_shape_manual(name = "Legend", 
-                     values = c(23, 21, 22),
+                     values = c(24, 21, 22),
                      labels = c("Angling","Tip-Ups", "Traps"))# Add scale and North arrowportagemini_plot <- portage_plot+
   ggspatial::annotation_scale(
     location = "bl",
