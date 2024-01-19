@@ -80,7 +80,9 @@ cascmini.df <- read.csv("C:/Users/lstrople/OneDrive - Norwegian University of Li
 
 canlakes.df <- read.csv("C:/Users/lstrople/OneDrive - Norwegian University of Life Sciences/Winter_paper/Levi_lakes.csv")
 
-pikemini.df <- read.csv("C:/Users/lstrople/OneDrive - Norwegian University of Life Sciences/Winter_paper/Levi_lakes.csv")
+pikemini.df <- read.csv("C:/Users/lstrople/OneDrive - Norwegian University of Life Sciences/Winter_paper/pikemini.csv")
+
+portagemini.df <- read.csv("C:/Users/lstrople/OneDrive - Norwegian University of Life Sciences/Winter_paper/portagemini.csv")
 
 # Apply the function to the lat column using lapply
 gaspe.df$latDD <- lapply(gaspe.df$lat_A, LATDMtoDDcoorindate)
