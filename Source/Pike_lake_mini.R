@@ -58,9 +58,9 @@ pikeANG_space.df <- st_set_crs(pikeANG_space.df, 4326)
 
 pike_plot <- ggplot() +
   geom_sf(data = pikeM_selected, color="#343A40", fill="#DEE2E6") + 
-  geom_sf(data = pikeMT_space.df, aes(color = "pikeMT_space",fill = "pikeMT_space", shape = "pikeMT_space"), show.legend = FALSE) +
-  geom_sf(data = pikeHGN_space.df, aes(color = "pikeHGN_space", fill = "pikeHGN_space",  shape = "pikeHGN_space"), show.legend = FALSE) +
-  geom_sf(data = pikeANG_space.df, aes(color = "pikeANG_space", fill = "pikeANG_space", shape = "pikeANG_space"), show.legend = FALSE) +
+  geom_sf(data = pikeMT_space.df, aes(color = "pikeMT_space",fill = "pikeMT_space", shape = "pikeMT_space"), size=3, show.legend = FALSE) +
+  geom_sf(data = pikeHGN_space.df, aes(color = "pikeHGN_space", fill = "pikeHGN_space",  shape = "pikeHGN_space"),size=3,  show.legend = FALSE) +
+  geom_sf(data = pikeANG_space.df, aes(color = "pikeANG_space", fill = "pikeANG_space", shape = "pikeANG_space"),size=3,  show.legend = FALSE) +
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
