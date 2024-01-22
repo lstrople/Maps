@@ -57,9 +57,9 @@ portageANG_space.df <- st_set_crs(portageANG_space.df, 4326)
 
 portagemini_plot <- ggplot() +
   geom_sf(data = portageM_selected, color="#343A40", fill="#DEE2E6") + 
-  geom_sf(data = portageMT_space.df, aes(color = "portageMT_space", fill = "portageMT_space", shape = "portageMT_space"), show.legend = FALSE) +
-  geom_sf(data = portageANG_space.df, aes(color = "portageANG_space", fill = "portageANG_space", shape = "portageANG_space"), show.legend = FALSE) +
-  geom_sf(data = portageHGN_space.df, aes(color = "portageHGN_space", fill = "portageHGN_space",  shape = "portageHGN_space"), show.legend = FALSE) +
+  geom_sf(data = portageMT_space.df, aes(color = "portageMT_space", fill = "portageMT_space", shape = "portageMT_space"), size = 3, show.legend = FALSE) +
+  geom_sf(data = portageANG_space.df, aes(color = "portageANG_space", fill = "portageANG_space", shape = "portageANG_space"), size = 3, show.legend = FALSE) +
+  geom_sf(data = portageHGN_space.df, aes(color = "portageHGN_space", fill = "portageHGN_space", shape = "portageHGN_space"), size = 3, show.legend = FALSE) +
   theme(panel.grid = element_blank(),
         axis.text.x= element_blank(),
         axis.text.y= element_blank(),
