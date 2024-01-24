@@ -77,7 +77,7 @@ portage_plot <- ggplot() +
   scale_shape_manual(name = "Legend", 
                      values = c(24, 21, 22),
                      labels = c("Tip-Ups", "Nets", "Traps"))
-  ggspatial::annotation_scale(
+  portage_plot <- portage_plot + ggspatial::annotation_scale(
     location = "bl",
     bar_cols = c("grey60", "white"),
     text_family = "ArcherPro Book"
