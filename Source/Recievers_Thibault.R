@@ -1,6 +1,31 @@
-###################################
-#must run main map file before use
-###################################
+###########
+#libraries
+###########
+
+require(sf)
+library(dplyr)
+library(ggplot2)
+library(ggrepel)
+library(tidyr)
+library(tidyverse)
+library(patchwork)
+library(gridExtra)
+library(cowplot)
+
+################################################
+#set working directory for where kml is stored
+###############################################
+
+setwd("C:/Users/lstrople/OneDrive - Norwegian University of Life Sciences/Winter_paper/KML files")
+
+#Change path to where recievers csv is stored 
+recievers.df <- Reciever_location <- read.csv("C:/Users/lstrople/OneDrive - Norwegian University of Life Sciences/Telemetry_Thibaul/Reciever_location.csv")
+
+###########
+#KML file
+###########
+
+#run steps indvidually a warning will stop the code otherwise 
 
 thibSpace <- st_read("thibault.KML") %>%
   st_transform(32620)
@@ -22,16 +47,14 @@ Thib_selected <- dplyr::select(thibSpace, geometry) %>% st_zm()
 
 
 
-##############
-#convert nets
-##############
+##################
+#convert recievers
+##################
 
-# Convert 'gaspe' to a tibble
 recievers_tibble.df <- as_tibble(recievers.df)
 recievers_tibble.df.df <- dplyr::filter(recievers_tibble.df, !is.na(Long) & !is.na(Lat))
 recievers_space.df <- st_as_sf(recievers_tibble.df, coords = c("Long", "Lat"))
 recievers_space.df <- st_set_crs(recievers_space.df, 4326)
-
 
 
 ######
@@ -60,6 +83,7 @@ thibtel_plot <- ggplot() +
                      values = c(16),
                      labels = c("Recievers"))# Add scale and North arrow
 
+
 thibtel_plot <- thibtel_plot+
   ggspatial::annotation_scale(
     location = "br",
@@ -77,5 +101,5 @@ thibtel_plot <- thibtel_plot+
   )
 
 print(thibtel_plot)
-ggsave("ThibS23.png", plot =thibS23_plot, width = 7, height = 5, units = "in", dpi = 300)
+ggsave("ThibRec.png", plot = thibtel_plot, width = 7, height = 5, units = "in", dpi = 300)
 
